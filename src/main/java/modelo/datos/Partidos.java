@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 
 
-public class PartidosJPA {
+public class Partidos {
 	@Id
 	@XmlTransient
 	private String nombre;
@@ -31,11 +31,11 @@ public class PartidosJPA {
 	private String escudo;
 	private String aficionados;
 	
-	public PartidosJPA() {
+	public Partidos() {
 		super();
 	}
 
-	public PartidosJPA( String nombre, String pais,
+	public Partidos( String nombre, String pais,
 			String escudo, String aficionados) {
 		
 		this.nombre = nombre;

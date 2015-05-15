@@ -20,7 +20,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import modelo.dao.EquiposJPA;
-import modelo.datos.Equipos;
+import modelo.datos.Equipo;
 
 @Path("Admin/Equipos")
 @Stateless
@@ -50,7 +50,7 @@ public class EquiposServicios {
     @GET
     @Produces("application/json")
     public Response listaTodosEquipos() {
-        Equipos[] equipos = equipoJPA.listaTodosEquipos();
+        Equipo[] equipos = equipoJPA.listaTodosEquipos();
         return Response.ok(equipos).build();
     }
 
@@ -62,7 +62,7 @@ public class EquiposServicios {
             @FormParam("nombre") String nombre
             ) {
         if (equipoJPA.buscaEquipoPorNombre(nombre) == EquiposJPA.ENTRADA_NULL) {
-            Equipos equipo = new Equipos();
+            Equipo equipo = new Equipo();
             equipoJPA.nuevoEquipo(equipo);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();
@@ -75,7 +75,7 @@ public class EquiposServicios {
     @Path("{nombre}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipos equipo) {
+    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
 		
         if(!nombre.equals(equipo.getNombre())) {
             return Response.status(Response.Status.BAD_REQUEST).build();

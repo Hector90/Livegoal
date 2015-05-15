@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -21,9 +22,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 })
+@Table(name = "equipos")
 
-
-public class UsuariosJPA {
+public class Equipo {
 	@Id
 	@XmlTransient
 	private String nombre;
@@ -31,11 +32,11 @@ public class UsuariosJPA {
 	private String escudo;
 	private String aficionados;
 	
-	public UsuariosJPA() {
+	public Equipo() {
 		super();
 	}
 
-	public UsuariosJPA( String nombre, String pais,
+	public Equipo( String nombre, String pais,
 			String escudo, String aficionados) {
 		
 		this.nombre = nombre;

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,26 +25,21 @@ import javax.xml.bind.annotation.XmlType;
 })
 
 
-public class Equipos {
+public class Ligas {
 	@Id
 	@XmlTransient
 	private String nombre;
-	private String pais;
-	private String escudo;
-	private String aficionados;
+	private Pais pais;
 	
-	public Equipos() {
+	public Ligas() {
 		super();
 	}
 
-	public Equipos( String nombre, String pais,
-			String escudo, String aficionados) {
+	public Ligas( String nombre, Pais pais) {
 		
 		this.nombre = nombre;
 		this.pais = pais;
-		this.escudo = escudo;
-		this.aficionados = aficionados;
-
+		
 	}
 
 	public String getNombre() {
@@ -52,33 +49,15 @@ public class Equipos {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public String getPais() {
+	@ManyToOne
+	@JoinColumn(name = "pais")
+	public Pais getPais() {
 		return pais;
 	}
 
-	public void setPais(String pais) {
+	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
-
-	public String getEscudo() {
-		return escudo;
-	}
-
-	public void setEscudo(String escudo) {
-		this.escudo = escudo;
-	}
-
-	public String getAficionados() {
-		return aficionados;
-	}
-
-	public void setAficionados(String aficionados) {
-		this.aficionados = aficionados;
-	}
-
-
-
-
+	
 }
 

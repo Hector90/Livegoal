@@ -7,21 +7,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import modelo.datos.Equipos;
+import modelo.datos.Equipo;
 
 
 @Stateless
 public class EquiposJPA {
-    public static Equipos ENTRADA_NULL = new Equipos();
+    public static Equipo ENTRADA_NULL = new Equipo();
     @PersistenceContext(unitName = "livegoalJTA")
     EntityManager em;
 
-    public void nuevoEquipo(Equipos equipo) {
+    public void nuevoEquipo(Equipo equipo) {
           em.persist(equipo);
     }
 
-    public Equipos buscaEquipoPorNombre(String nombre) {
-        TypedQuery<Equipos> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipos.class);
+    public Equipo buscaEquipoPorNombre(String nombre) {
+        TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipo.class);
         query.setParameter("nombre", nombre);
         try {
             return query.getSingleResult();
@@ -30,28 +30,28 @@ public class EquiposJPA {
         }
     }
     
-    public Equipos[] listaTodosEquipos() {
-        TypedQuery<Equipos> query = em.createNamedQuery("Equipo.encuentraTodos", Equipos.class);
-        List<Equipos> listaEquipos = query.getResultList();
-        Equipos[] equipos = new Equipos[listaEquipos.size()];
+    public Equipo[] listaTodosEquipos() {
+        TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraTodos", Equipo.class);
+        List<Equipo> listaEquipos = query.getResultList();
+        Equipo[] equipos = new Equipo[listaEquipos.size()];
         listaEquipos.toArray(equipos);
         return equipos;
     }
    
-    public Equipos[] buscaEquipoPorPais(String pais) {
-        TypedQuery<Equipos> query = em.createNamedQuery("Equipo.encuentraPorPais", Equipos.class);
+    public Equipo[] buscaEquipoPorPais(String pais) {
+        TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraPorPais", Equipo.class);
         query.setParameter("pais", pais);
-        List<Equipos> ListaEquipos = query.getResultList();
-        Equipos[] equipos = new Equipos[ListaEquipos.size()];
+        List<Equipo> ListaEquipos = query.getResultList();
+        Equipo[] equipos = new Equipo[ListaEquipos.size()];
         ListaEquipos.toArray(equipos);
         return equipos;
     }
     
-    public boolean actualizaEquipo(Equipos equipo) {
-        TypedQuery<Equipos> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipos.class);
+    public boolean actualizaEquipo(Equipo equipo) {
+        TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipo.class);
         query.setParameter("nombre", equipo.getNombre());
         try {
-        	Equipos equipoBBDD = query.getSingleResult();
+        	Equipo equipoBBDD = query.getSingleResult();
         	equipoBBDD.setNombre(equipo.getNombre());
         	equipoBBDD.setPais(equipo.getPais());
         	equipoBBDD.setEscudo(equipo.getEscudo());
