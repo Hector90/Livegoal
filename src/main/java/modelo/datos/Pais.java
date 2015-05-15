@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"nombre","abreviatura","bandera"})
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Paises p"),
-	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Paises p WHERE p.nombre = :nombre")
+	@NamedQuery(name="Pais.encuentraTodos", query = "SELECT p FROM Pais p"),
+	@NamedQuery(name="Pais.encuentraPorNombre", query = "SELECT p FROM Pais p WHERE p.nombre = :nombre")
 
 
 })
@@ -34,8 +34,8 @@ public class Pais {
 	private String nombre;
 	private String abreviatura;
 	private String bandera;
-	@OneToMany(cascade=CascadeType.ALL)
-	private List ligas;
+	//@OneToMany(cascade=CascadeType.ALL)
+	//private List ligas;
 	
 	public Pais() {
 		super();
@@ -72,8 +72,8 @@ public class Pais {
 	public void setBandera(String bandera) {
 		this.bandera = bandera;
 	}
-	@XmlElement(name="listaLigas")
-	public List getligas(){ return this.ligas; }
+	//@XmlElement(name="listaLigas")
+	//public List getligas(){ return this.ligas; }
 
 		
 }

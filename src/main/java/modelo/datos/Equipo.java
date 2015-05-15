@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"nombre","pais","escudo","aficionados"})
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipos p"),
-	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipos p WHERE p.nombre = :nombre")
+	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p"),
+	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre")
 
 
 })
