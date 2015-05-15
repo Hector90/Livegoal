@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -19,33 +20,22 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import modelo.dao.EquiposJPA;
+import modelo.dao.EquipoJPA;
 import modelo.datos.Equipo;
 
-@Path("Admin/Equipos")
+@Path("equipos")
 @Stateless
-public class EquiposServicios {
+public class EquipoServicios {
     @Inject
-    EquiposJPA equipoJPA;
+    EquipoJPA equipoJPA;
     @Context
     private UriInfo uriInfo;
 
-    public EquiposServicios() {
+    public EquipoServicios() {
         super();
     }
 
-//    @GET
-//    @Path("{nombre}")
-//    @Produces("application/json")
-//    public Response buscarEquipoPorNombre(@PathParam("nombre") String nombre) {
-//        Equipo equipo = equipoJPA.buscaEquipoPorNombre(nombre);
-//        
-//        if (equipo == EquipoJPA.ENTRADA_NULL)
-//            return Response.status(Response.Status.NOT_FOUND).build();
-//        return Response.ok(equipo).build();
-//    }
-
-    
+//  
 
     @GET
     @Produces("application/json")
@@ -54,6 +44,15 @@ public class EquiposServicios {
         return Response.ok(equipos).build();
     }
 
+    @GET
+    @Path("{nombre}")
+    @Produces("application/json")
+    public Response buscarEquipoPorNombre(@PathParam("nombre") String nombre) {
+    	Equipo equipo = equipoJPA.buscaEquipoPorNombre(nombre);
+    		if (equipo == EquipoJPA.ENTRADA_NULL)
+    			return Response.status(Response.Status.NOT_FOUND).build();
+    		return Response.ok(equipo).build();
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -61,7 +60,7 @@ public class EquiposServicios {
     public Response nuevaEntradaDesdeFormulario(
             @FormParam("nombre") String nombre
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquiposJPA.ENTRADA_NULL) {
+        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
             Equipo equipo = new Equipo();
             equipoJPA.nuevoEquipo(equipo);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
@@ -90,6 +89,23 @@ public class EquiposServicios {
             }
         }
     }
-
-  
+    @DELETE
+    @Path("{nombre}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response borrarEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
+		
+        if(!nombre.equals(equipo.getNombre())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else {
+            if (equipoJPA.actualizaEquipo(equipo) == true){
+					return Response.status(Response.Status.NO_CONTENT).build();                
+			}
+            else {
+            	equipoJPA.nuevoEquipo(equipo);
+                return Response.ok(equipo).build();
+            }
+        }
+    }
 }

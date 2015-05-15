@@ -1,10 +1,6 @@
 package modelo.datos;
 
-
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -16,13 +12,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlType(propOrder = {"nombre","pais","escudo","aficionados"})
 @Entity
-@NamedQueries({
-	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p"),
-	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre")
-
-
-})
 @Table(name = "equipos")
+@NamedQueries({
+	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p order by nombre asc"),
+	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre")
+})
+
 
 public class Equipo {
 	@Id
