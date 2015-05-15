@@ -7,6 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -31,6 +33,8 @@ public class Equipo {
 	private String escudo;
 	private String aficionados;
 	
+
+	
 	public Equipo() {
 		super();
 	}
@@ -44,7 +48,7 @@ public class Equipo {
 		this.aficionados = aficionados;
 
 	}
-
+	@XmlID 
 	public String getNombre() {
 		return nombre;
 	}

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -28,12 +29,12 @@ import javax.xml.bind.annotation.XmlType;
 //
 public class Liga {
 	@Id
-	@XmlTransient
+	//@XmlTransients
 	private String nombre;
 	@ManyToOne
     @JoinColumn(name="pais")
 	private Pais pais;
-	
+
 	
 	public Liga() {
 		super();
@@ -45,7 +46,7 @@ public class Liga {
 		this.pais = pais;
 		
 	}
-
+	@XmlID 
 	public String getNombre() {
 		return nombre;
 	}

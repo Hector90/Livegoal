@@ -11,13 +11,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"nombre","abreviatura","bandera"})
+@XmlType(propOrder = {"nombre","abreviatura","bandera","listaLigas","listaEquipos"})
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Pais.encuentraTodos", query = "SELECT p FROM Pais p"),
@@ -34,11 +36,13 @@ public class Pais {
 	private String nombre;
 	private String abreviatura;
 	private String bandera;
-	/*@OneToMany(mappedBy="pais" )
+	
+	@OneToMany(mappedBy="pais" )
 	private List<Liga> listaLigas;
+	
 	@OneToMany(mappedBy="pais" )
 	private List<Equipo> listaEquipos;
-	*/
+	
 	
 	public Pais() {
 		super();
@@ -51,7 +55,9 @@ public class Pais {
 		this.abreviatura = abreviatura;
 		this.bandera = bandera;
 	}
-/*
+	
+	//@XmlAttribute 
+	@XmlIDREF
 	public void setListaLigas(List<Liga> listaLigas) {
         this.listaLigas = listaLigas;
     }
@@ -65,7 +71,8 @@ public class Pais {
  
         listaLigas.add(l);
     }
- 
+   
+    @XmlIDREF
     public void setListaEquipos(List<Equipo> listaEquipos) {
         this.listaEquipos = listaEquipos;
     }
@@ -78,7 +85,7 @@ public class Pais {
  
         listaLigas.add(l);
     }
- */
+ 
 	public String getNombre() {
 		return nombre;
 	}
