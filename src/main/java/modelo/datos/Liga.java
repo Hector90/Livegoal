@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = {"nombre","pais"})
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Liga.encuentraTodos", query = "SELECT p FROM Liga p"),
+	@NamedQuery(name="Liga.encuentraTodas", query = "SELECT p FROM Liga p"),
 	@NamedQuery(name="Liga.encuentraPorNombre", query = "SELECT p FROM Liga p WHERE p.nombre = :nombre")
 
 
@@ -30,13 +30,16 @@ public class Liga {
 	@Id
 	@XmlTransient
 	private String nombre;
-	private String pais;
+	@ManyToOne
+    @JoinColumn(name="pais")
+	private Pais pais;
+	
 	
 	public Liga() {
 		super();
 	}
 
-	public Liga( String nombre, String pais) {
+	public Liga( String nombre, Pais pais) {
 		
 		this.nombre = nombre;
 		this.pais = pais;
@@ -51,11 +54,11 @@ public class Liga {
 		this.nombre = nombre;
 	}
 	
-	public String getPais() {
+	public Pais getPais() {
 		return pais;
 	}
 
-	public void setPais(String pais) {
+	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
 	
