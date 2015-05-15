@@ -19,18 +19,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import modelo.dao.EquipoJPA;
+import modelo.dao.EquiposJPA;
 import modelo.datos.Equipos;
 
 @Path("Admin/Equipos")
 @Stateless
-public class EquipoServicios {
+public class EquiposServicios {
     @Inject
-    EquipoJPA equipoJPA;
+    EquiposJPA equipoJPA;
     @Context
     private UriInfo uriInfo;
 
-    public EquipoServicios() {
+    public EquiposServicios() {
         super();
     }
 
@@ -61,7 +61,7 @@ public class EquipoServicios {
     public Response nuevaEntradaDesdeFormulario(
             @FormParam("nombre") String nombre
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
+        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquiposJPA.ENTRADA_NULL) {
             Equipos equipo = new Equipos();
             equipoJPA.nuevoEquipo(equipo);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();

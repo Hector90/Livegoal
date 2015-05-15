@@ -11,7 +11,7 @@ import modelo.datos.Equipos;
 
 
 @Stateless
-public class EquipoJPA {
+public class EquiposJPA {
     public static Equipos ENTRADA_NULL = new Equipos();
     @PersistenceContext(unitName = "livegoalJTA")
     EntityManager em;
