@@ -15,7 +15,7 @@ public class EquipoJPA {
     public static Equipo ENTRADA_NULL = new Equipo();
     @PersistenceContext(unitName = "livegoalJTA")
     EntityManager em;
-
+//
     public void nuevoEquipo(Equipo equipo) {
           em.persist(equipo);
     }

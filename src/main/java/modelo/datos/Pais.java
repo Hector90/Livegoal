@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 
 })
 @Table(name = "paises")
-
+//
 
 public class Pais {
 	@Id

@@ -43,6 +43,7 @@ public class EquipoServicios {
         Equipo[] equipos = equipoJPA.listaTodosEquipos();
         return Response.ok(equipos).build();
     }
+    //
 
     @GET
     @Path("{nombre}")

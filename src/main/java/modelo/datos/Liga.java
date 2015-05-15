@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
 
 })
 @Table(name = "ligas")
-
+//
 public class Liga {
 	@Id
 	@XmlTransient

@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p order by nombre asc"),
 	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre")
 })
-
+//
 
 public class Equipo {
 	@Id
