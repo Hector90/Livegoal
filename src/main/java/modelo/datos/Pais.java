@@ -34,8 +34,11 @@ public class Pais {
 	private String nombre;
 	private String abreviatura;
 	private String bandera;
-	//@OneToMany(cascade=CascadeType.ALL)
-	//private List ligas;
+	/*@OneToMany(mappedBy="pais" )
+	private List<Liga> listaLigas;
+	@OneToMany(mappedBy="pais" )
+	private List<Equipo> listaEquipos;
+	*/
 	
 	public Pais() {
 		super();
@@ -48,7 +51,34 @@ public class Pais {
 		this.abreviatura = abreviatura;
 		this.bandera = bandera;
 	}
-
+/*
+	public void setListaLigas(List<Liga> listaLigas) {
+        this.listaLigas = listaLigas;
+    }
+    
+	@XmlElement(name="listaLigas")
+	public List<Liga> getListaLigas() {
+        return listaLigas;
+    }
+ 
+    public void addLiga(Liga l) {
+ 
+        listaLigas.add(l);
+    }
+ 
+    public void setListaEquipos(List<Equipo> listaEquipos) {
+        this.listaEquipos = listaEquipos;
+    }
+    @XmlElement(name="listaEquipos")
+    public List<Equipo> getListaEquipos() {
+        return listaEquipos;
+    }
+ 
+    public void addEquipo(Liga l) {
+ 
+        listaLigas.add(l);
+    }
+ */
 	public String getNombre() {
 		return nombre;
 	}

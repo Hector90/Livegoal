@@ -2,6 +2,8 @@ package modelo.datos;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,7 +25,9 @@ public class Equipo {
 	@Id
 	@XmlTransient
 	private String nombre;
-	private String pais;
+	@ManyToOne
+    @JoinColumn(name="pais")
+	private Pais pais;
 	private String escudo;
 	private String aficionados;
 	
@@ -31,7 +35,7 @@ public class Equipo {
 		super();
 	}
 
-	public Equipo( String nombre, String pais,
+	public Equipo( String nombre, Pais pais,
 			String escudo, String aficionados) {
 		
 		this.nombre = nombre;
@@ -49,11 +53,11 @@ public class Equipo {
 		this.nombre = nombre;
 	}
 
-	public String getPais() {
+	public Pais getPais() {
 		return pais;
 	}
 
-	public void setPais(String pais) {
+	public void setPais(Pais pais) {
 		this.pais = pais;
 	}
 
