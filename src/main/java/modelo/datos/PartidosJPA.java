@@ -13,37 +13,35 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"nombre","pais","escudo","numAficionados"})
+@XmlType(propOrder = {"nombre","pais","escudo","aficionados"})
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p"),
-	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre")
+	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipos p"),
+	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipos p WHERE p.nombre = :nombre")
 
 
 })
 
 
-public class Equipo {
+public class PartidosJPA {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@XmlTransient
-	private Long id;
 	private String nombre;
 	private String pais;
 	private String escudo;
-	private String numAficionados;
+	private String aficionados;
 	
-	public Equipo() {
+	public PartidosJPA() {
 		super();
 	}
 
-	public Equipo(Long id, String nombre, String pais,
-			String escudo, String numAficionados) {
-		this.id = id;
+	public PartidosJPA( String nombre, String pais,
+			String escudo, String aficionados) {
+		
 		this.nombre = nombre;
 		this.pais = pais;
 		this.escudo = escudo;
-		this.numAficionados = numAficionados;
+		this.aficionados = aficionados;
 
 	}
 
@@ -71,12 +69,12 @@ public class Equipo {
 		this.escudo = escudo;
 	}
 
-	public String getNumAficionados() {
-		return numAficionados;
+	public String getAficionados() {
+		return aficionados;
 	}
 
-	public void setNumAficionados(String numAficionados) {
-		this.numAficionados = numAficionados;
+	public void setAficionados(String aficionados) {
+		this.aficionados = aficionados;
 	}
 
 
