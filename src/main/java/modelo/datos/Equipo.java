@@ -32,9 +32,7 @@ public class Equipo {
 	private Pais pais;
 	private String escudo;
 	private String aficionados;
-	
-
-	
+		
 	public Equipo() {
 		super();
 	}
