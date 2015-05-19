@@ -20,9 +20,11 @@ public class UsuarioJPA {
           em.persist(usuario);
     }
 
-    public Usuario buscaUsuarioPorLogin(String login) {
-        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.encuentraPorLogin", Usuario.class);
-        query.setParameter("login", login);
+    public Usuario buscaUsuarioPorLogin(String username, String password) {
+        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.login", Usuario.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        
         try {
             return query.getSingleResult();
         } catch (NoResultException e) {

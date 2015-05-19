@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html ng-app="equipos">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Livegoal | Gestionar Equipos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+
+
+    <!-- Mis scripts-->
+    <script src="../../js/cookies.js"></script>
+    <script src="../../js/equipos.js"></script>
+    <script>
+
+    </script>
+ </head>
+    		
+<body ng-controller="EquiposCtrl as EquiposCtrl">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Livegoal</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+	        <li class="active"><a href="">Equipos</a></li>
+	        <li><a href="gestionarPartidos.html">Partidos</a></li> 
+			<li><a href="gestionarPaises.html">Paises</a></li>
+      </ul>     
+          <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+	        <li><a href="../index.html" Onclick="eraseCookie('LoginLivegoal')"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+	      </ul>
+       
+    </div>
+  </div>
+</nav>
+<div class="container" >
+    <h1>Gestión de Equipos</h1>
+      
+        <div class="table-responsive">
+        <table class="table table-hover ">
+            <tr>
+            	<th>Nombre</th><th>Escudo</th>
+            	<th>Pais</th><th></th>
+            	<th>Aficionados</th>
+            	
+            </tr>
+            <tbody>
+            <tr ng-repeat="a in equipos" id="{{a.nombre}}">
+                <td>{{a.nombre}}</td>
+               
+                <td>{{a.escudo}}</td>
+                 <td>{{a.pais.nombre}}</td><td>{{a.pais.bandera}}  </td>
+                <td>{{a.aficionados}}</td>
+
+                                
+                <td><button  id="update:{{a.nombre}}" type="submit" class="btn btn-info btn-sm" data-toggle="modal" data-target="#actualizar"
+                        ng-click="EquiposCtrl.retrieveContact(a.nombre)">
+                        <span class="glyphicon glyphicon-pencil"></span> Actualizar</button></td>
+               
+               <td> 
+	            	<button type="submit" class="btn btn-danger btn-sm" data-toggle="modal" 
+	            	data-target="#eliminar" ng-click="EquiposCtrl.retrieveContact(a.nombre)">
+				    <span class="glyphicon glyphicon-folder-close"></span> Eliminar</button>
+				</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+<!-- Ventana modal actualizar -->
+    <div class="modal fade" id="actualizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-update">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentEquipo.nombre}}</h4>
+                </div>
+                <div class="modal-body">
+					
+					 <form name="updateForm">
+					
+					 <div class="form-group">					    	
+						    <label>Nombre:</label>
+					   		<input type="text" id="nombreU" name="nombreU" class="form-control" ng-model="CurrentEquipo.nombre" 
+								   ng-minlength="1" ng-maxlength="50" ng-change="comprobar(CurrentEquipo.nombre)" required> 
+					  </div>
+					  <div class="form-group">					    	
+						    <label>Escudo:</label>
+					   		<input type="text" id="nombreU" name="escudoU" class="form-control" ng-model="CurrentEquipo.escudo" 
+								   ng-minlength="1" ng-maxlength="50" required> 
+					  </div>
+					  <div class="form-group">					    	
+						    <label>Pais:</label>
+						    <select ng-model="user.pais">
+						    <option ng-selected="p.nombre==CurrentEquipo.pais.nombre"
+						            ng-repeat="p in paises"
+						            value="{{p.nombre}}">
+						      {{p.nombre}}
+						    </option>
+						    	</select>
+					   	
+					  </div>
+					  <div class="form-group">					    	
+						    <label>Aficionados:</label>
+					   		<input type="text" id="nombreU" name="aficionadosU" class="form-control" ng-model="CurrentEquipo.aficionados" 
+								   ng-minlength="1" ng-maxlength="50" required> 
+					  </div>
+	                  <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="button" class="btn btn-info"
+		                            ng-click="EquiposCtrl.update(currentEquipo)"
+		                            >Actualizar</button>
+					 </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div> 
+	<!-- FIN ACTUALIZAR -->
+	<button type="submit" id="añadir1" ng-hide="add" class="btn btn-success" data-toggle="modal" data-target="#create" ng-click="resetForm(user)">
+    <span class="glyphicon glyphicon-plus"></span>Añadir</button>
+	<!-- Ventana Modal insertar-->
+		<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header modal-header-new">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-plus"></i> Nuevo Equipo</h4>
+		      </div>
+		      <div class="modal-body">
+		      <form id="createForm" name="createForm" >
+				<div class="form-group"  >
+					    	<label>Nombre:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.nombre" ng-change="comprobar(user.nombre)" id="nombre" name="nombre" required/>
+			  				<small class="error" ng-show="updateForm.nombreU.$error.nombreU">*El nombre ya existe</small>
+			  	</div>
+			  					<div class="form-group"  >
+					    	<label>Escudo:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.escudo" id="escudo" name="escudo" required/>
+			  	</div>
+			  					<div class="form-group"  >
+					    	<label>Pais:</label>
+					    	<select ng-model="user.pais" ng-options="p as p.nombre for p in paises">
+						    
+					    	</select>
+<!-- 						    <input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.pais" id="pais" name="pais" required/> -->
+						    
+						
+
+			  	</div>
+			  					<div class="form-group"  >
+					    	<label>Aficionados:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.aficionados" id="aficionados" name="aficionados" required/>
+			  	</div>
+  		       <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        <button id="añadir" type="submit" ng-click="EquiposCtrl.create(user.nombre,user.escudo,user.pais,user.aficionados)" 
+		        class="btn btn-success">Añadir</button>
+		      </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- FIN INSERTAR -->
+</body>
+</html>

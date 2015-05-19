@@ -14,12 +14,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"idUsuario","nombre","apellidos","username","password","email","roles","estado"})
+@XmlType(propOrder = {"idUsuario","nombre","apellidos","username","password","email","rol","estado"})
 @Entity
 @Table(name = "usuarios")
 @NamedQueries({
 	@NamedQuery(name="Usuario.encuentraTodos", query = "SELECT p FROM Usuario p order by p.nombre asc"),
-	@NamedQuery(name="Usuario.encuentraPorLogin", query = "SELECT p FROM Usuario p WHERE p.username = :login")
+	@NamedQuery(name="Usuario.login", query = "SELECT u FROM Usuario u WHERE u.username = :username AND u.password = :password"),
 })
 //
 
@@ -32,7 +32,7 @@ public class Usuario {
 	private String username;
 	private String password;
 	private String email;
-	private int roles;
+	private int rol;
 	private int estado;
 	
 	
@@ -47,7 +47,7 @@ public class Usuario {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.roles = roles;
+		this.rol = rol;
 		this.estado = estado;
 
 	}
@@ -104,11 +104,11 @@ public class Usuario {
 	}
 
 	public int getRol() {
-		return roles;
+		return rol;
 	}
 
 	public void setRol(int rol) {
-		this.roles = rol;
+		this.rol = rol;
 	}
 
 	public int getEstado() {

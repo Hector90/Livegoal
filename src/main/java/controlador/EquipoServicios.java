@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 
 import modelo.dao.EquipoJPA;
 import modelo.datos.Equipo;
+import modelo.datos.Usuario;
 
 @Path("equipos")
 @Stateless
@@ -41,6 +42,7 @@ public class EquipoServicios {
     @Produces("application/json")
     public Response listaTodosEquipos() {
         Equipo[] equipos = equipoJPA.listaTodosEquipos();
+        
         return Response.ok(equipos).build();
     }
     //
@@ -70,13 +72,24 @@ public class EquipoServicios {
         } else
             return Response.status(Response.Status.CONFLICT).build();
     }
+    
+	@PUT
+	@Path("actualizar/{nombre}")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response actualizaEquipo(@PathParam("nombre") String nombre, Equipo equipo) {
+		 System.out.println("hola1");
+		equipoJPA.actualizaEquipo(equipo);
+		 System.out.println("hola");
+		return Response.ok(equipo).build();
+	}
 
     @PUT
     @Path("{nombre}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-		
+    	System.out.println("hola creanuev");
         if(!nombre.equals(equipo.getNombre())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

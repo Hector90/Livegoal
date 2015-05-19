@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
 import modelo.datos.Equipo;
 
 
@@ -17,6 +18,9 @@ public class EquipoJPA {
     EntityManager em;
 //
     public void nuevoEquipo(Equipo equipo) {
+    	System.out.println("hola nuevoequipo");
+    	System.out.println(equipo.getNombre());
+    	System.out.println(equipo.getPais().getNombre());
           em.persist(equipo);
     }
 
@@ -48,7 +52,9 @@ public class EquipoJPA {
     }
     
     public boolean actualizaEquipo(Equipo equipo) {
+    	 System.out.println("hola act");
         TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipo.class);
+       
         query.setParameter("nombre", equipo.getNombre());
         try {
         	Equipo equipoBBDD = query.getSingleResult();
