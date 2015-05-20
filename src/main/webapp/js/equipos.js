@@ -113,7 +113,7 @@ equipos.service('EquiposAService', ['$http', function($http) {
 		dato = {'equipo': {'nombre': nombre, 'escudo': escudo, 'pais': pais, 'aficionados':aficionados}};
 		
 		var url = equipos.baseURI + nombre;
-		return $http.put(url, dato);
+		return $http.post(url, dato);
 	}
 
 	this.retrieveAll = function() {

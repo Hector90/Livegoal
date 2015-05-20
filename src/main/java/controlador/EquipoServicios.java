@@ -58,13 +58,12 @@ public class EquipoServicios {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-            @FormParam("nombre") String nombre
+            @FormParam("nombre") String nombre,Equipo equipo
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
-            Equipo equipo = new Equipo();
+        if (equipoJPA.buscaEquipoPorNombre(nombre) != EquipoJPA.ENTRADA_NULL) {
             equipoJPA.nuevoEquipo(equipo);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();

@@ -55,6 +55,18 @@ public class PaisJPA {
             return false;
         }
     }
+    public boolean borraPais(String nombre) {
+        TypedQuery<Pais> query = em.createNamedQuery("Pais.borraPorNombre", Pais.class);
+        query.setParameter("nombre", nombre);
+        try {
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
+
 
 	
 }

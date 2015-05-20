@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html ng-app="paises">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Livegoal | Gestionar Paises</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+
+
+    <!-- Mis scripts-->
+    <script src="../../js/cookies.js"></script>
+    <script src="../../js/paises.js"></script>
+    <script>
+
+    </script>
+ </head>
+    		
+<body ng-controller="PaisesCtrl as PaisesCtrl">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Livegoal</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+	        <li><a href="gestionarEquipos.html">Equipos</a></li>
+	        <li><a href="gestionarPartidos.html">Partidos</a></li> 
+			<li class="active"><a href="">Paises</a></li>
+      </ul>     
+          <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+	        <li><a href="../index.html" Onclick="eraseCookie('LoginLivegoal')"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+	      </ul>
+       
+    </div>
+  </div>
+</nav>
+<div class="container" >
+    <h1>Gestión de Paises</h1>
+      
+        <div class="table-responsive">
+        <table class="table table-hover ">
+            <tr>
+            	<th>Nombre</th>
+				<th>Abreviatura</th>
+            	<th>Bandera</th><th></th>
+            </tr>
+            <tbody>
+            <tr ng-repeat="a in paises" id="{{a.nombre}}">
+                <td>{{a.nombre}}</td>
+				<td>{{a.abreviatura}}</td>
+				<td>{{a.bandera}}</td>
+				<td><button  id="update:{{a.nombre}}" type="submit" class="btn btn-info btn-sm" data-toggle="modal" data-target="#actualizar"
+                        ng-click="PaisesCtrl.retrieveContact(a.nombre)">
+                        <span class="glyphicon glyphicon-pencil"></span> Actualizar</button></td>
+				<td> 	            	
+				<button type="submit" class="btn btn-danger btn-sm" data-toggle="modal" 
+	            	data-target="#eliminar" ng-click="PaisesCtrl.remove(a.nombre)">
+				    <span class="glyphicon glyphicon-folder-close"></span> Eliminar</button>
+				</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+<!-- Ventana modal actualizar -->
+    <div class="modal fade" id="actualizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-update">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentPais.nombre}}</h4>
+                </div>
+                <div class="modal-body">
+					
+					 <form name="updateForm">
+					
+					 <div class="form-group">					    	
+						    <label>Nombre:</label>
+					   		<input type="text" id="nombreU" name="nombreU" class="form-control" ng-model="CurrentPais.nombre" 
+								   ng-minlength="1" ng-maxlength="50" ng-change="comprobar(CurrentPais.nombre)" required> 
+					  </div>
+					  <div class="form-group">					    	
+						    <label>Abreviatura:</label>
+					   		<input type="text" id="nombreU" name="escudoU" class="form-control" ng-model="CurrentPais.abreviatura" 
+								   ng-minlength="1" ng-maxlength="50" required> 
+					  </div>
+					  <div class="form-group">					    	
+						    <label>Bandera:</label>
+					   		<input type="text" id="nombreU" name="aficionadosU" class="form-control" ng-model="CurrentPais.bandera" 
+								   ng-minlength="1" ng-maxlength="50" required> 
+					  </div>
+	                  <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="button" class="btn btn-info"
+		                            ng-click="PaisesCtrl.update(currentPais)"
+		                            >Actualizar</button>
+					 </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div> 
+	<!-- FIN ACTUALIZAR -->
+	<button type="submit" id="añadir1" ng-hide="add" class="btn btn-success" data-toggle="modal" data-target="#create" ng-click="resetForm(user)">
+    <span class="glyphicon glyphicon-plus"></span>Añadir</button>
+	<!-- Ventana Modal insertar-->
+		<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header modal-header-new">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-plus"></i> Nuevo Pais</h4>
+		      </div>
+		      <div class="modal-body">
+		      <form id="createForm" name="createForm" >
+				<div class="form-group"  >
+					    	<label>Nombre:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.nombre" ng-change="comprobar(user.nombre)" id="nombre" name="nombre" required/>
+			  				<small class="error" ng-show="updateForm.nombreU.$error.nombreU">*El nombre ya existe</small>
+			  	</div>
+			  					<div class="form-group"  >
+					    	<label>Abreviatura:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.abreviatura" id="abreviatura" name="abreviatura" required/>
+			  	</div>
+			  				
+			  					<div class="form-group"  >
+					    	<label>Bandera:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.bandera" id="bandera" name="bandera" required/>
+			  	</div>
+  		       <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        <button id="añadir" type="submit" ng-click="PaisesCtrl.create(user.nombre,user.abreviatura,user.bandera)" 
+		        class="btn btn-success">Añadir</button>
+		      </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- FIN INSERTAR -->
+</body>
+</html>

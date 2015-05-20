@@ -45,70 +45,60 @@ public class PaisServicios {
         Pais[] paises = paisJPA.listaTodosPaises();
         return Response.ok(paises).build();
     }
-    /*
+    
 
     @GET
     @Path("{nombre}")
     @Produces("application/json")
     public Response buscarEquipoPorNombre(@PathParam("nombre") String nombre) {
-    	Equipo equipo = equipoJPA.buscaEquipoPorNombre(nombre);
-    		if (equipo == EquipoJPA.ENTRADA_NULL)
+    	Pais pais = paisJPA.buscaPaisPorNombre(nombre);
+    		if (pais == PaisJPA.ENTRADA_NULL)
     			return Response.status(Response.Status.NOT_FOUND).build();
-    		return Response.ok(equipo).build();
+    		return Response.ok(pais).build();
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-            @FormParam("nombre") String nombre
+            @FormParam("nombre") String nombre,Pais pais
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
-            Equipo equipo = new Equipo();
-            equipoJPA.nuevoEquipo(equipo);
+        if (paisJPA.buscaPaisPorNombre(nombre) != PaisJPA.ENTRADA_NULL) {
+            paisJPA.nuevoPais(pais);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();
-            return Response.created(uri).entity(equipo).build();
+            return Response.created(uri).entity(pais).build();
         } else
             return Response.status(Response.Status.CONFLICT).build();
     }
 
     @PUT
-    @Path("{nombre}")
+    @Path("actualizar/{nombre}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
-    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-		
-        if(!nombre.equals(equipo.getNombre())) {
+    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Pais pais) {
+		System.out.println("Pais a modificar" + nombre);
+		System.out.println("Su nuevo nombre" + pais.getNombre());
+        if(!nombre.equals(pais.getNombre())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
+            if (paisJPA.actualizaPais(pais)== true){
 					return Response.status(Response.Status.NO_CONTENT).build();                
 			}
             else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
+            	paisJPA.nuevoPais(pais);
+                return Response.ok(pais).build();
             }
         }
     }
     @DELETE
     @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response borrarEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-		
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
-					return Response.status(Response.Status.NO_CONTENT).build();                
-			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
-    }*/
+    @Produces("application/json")
+    public Response borraEntrada(@PathParam("nombre") String nombre) {
+            if (paisJPA.borraPais(nombre) == true)
+                return Response.status(Response.Status.ACCEPTED).build();
+            else
+                return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }
