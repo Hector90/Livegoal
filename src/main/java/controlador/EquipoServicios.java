@@ -78,48 +78,54 @@ public class EquipoServicios {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response actualizaEquipo(@PathParam("nombre") String nombre, Equipo equipo) {
-		 System.out.println("hola1");
-		equipoJPA.actualizaEquipo(equipo);
-		 System.out.println("hola");
-		return Response.ok(equipo).build();
-	}
-
-    @PUT
-    @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-    	System.out.println("hola creanuev");
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
+		
+      if(!nombre.equals(equipo.getNombre())) {
+     return Response.status(Response.Status.BAD_REQUEST).build();
+      }else {
+	      if (equipoJPA.actualizaEquipo(equipo) == true){
 					return Response.status(Response.Status.NO_CONTENT).build();                
 			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
-    }
+	      else {
+	      	equipoJPA.actualizaEquipo(equipo);
+	          return Response.ok(equipo).build();
+	      }
+	  }
+	}
+	
+//    @PUT
+//    @Path("actualizar/{nombre}")
+//    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
+//		
+
+//    }
+//
+//    @PUT
+//    @Path("{nombre}")
+//    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
+//        if(!nombre.equals(equipo.getNombre())) {
+//            return Response.status(Response.Status.BAD_REQUEST).build();
+//        }
+//        else {
+//            if (equipoJPA.actualizaEquipo(equipo) == true){
+//					return Response.status(Response.Status.NO_CONTENT).build();                
+//			}
+//            else {
+//            	equipoJPA.nuevoEquipo(equipo);
+//                return Response.ok(equipo).build();
+//            }
+//        }
+//    }
     @DELETE
     @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response borrarEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-		
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
-					return Response.status(Response.Status.NO_CONTENT).build();                
-			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
+    @Produces("application/json")
+    public Response borraEntrada(@PathParam("nombre") String nombre) {
+            if (equipoJPA.borraEquipo(nombre) == true)
+                return Response.status(Response.Status.ACCEPTED).build();
+            else
+                return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

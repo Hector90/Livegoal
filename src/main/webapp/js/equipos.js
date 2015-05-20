@@ -13,7 +13,6 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 	  
 	
 
-//	Limpiar el formulario para que si sales de la ventana modal se limpien los mensajes de error y formato
 	$scope.resetForm = function(user){ 
 		var defaultForm = {
 				nombre:"", escudo:"", pais:{}, aficionados:""
@@ -74,18 +73,34 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 	};
 
 	self.update = function() {
-		
+		for (var x=0;x<$scope.paises.length;x++){
+			if($scope.CurrentEquipo.pais.nombre==$scope.paises[x].nombre){
+				$scope.CurrentEquipo.pais=$scope.paises[x];
+			}
+		}
 		EquiposAService.update($scope.CurrentEquipo)
 			.success(function(data) {
 				EquiposAService.retrieveAll()
 				.success(function (data) {
-					$scope.Equipos = data.equipo;
+					$scope.equipos = data.equipo;
 
 				});
 				$('#actualizar').modal('hide');
 			});
 
 	};
+	self.remove=function(nombre){
+		EquiposAService.remove(nombre)
+		.success(function(data) {
+			EquiposAService.retrieveAll()
+			.success(function (data) {
+				$scope.equipos = data.equipo;
+
+			});
+			
+		});
+	};
+	
 
 }]);
 
@@ -118,11 +133,17 @@ equipos.service('EquiposAService', ['$http', function($http) {
 		return $http.get(url);
 	}
 
+	this.remove = function(nombre){
+		var url = equipos.baseURI + nombre;
+		return $http.delete(url);
+	}
+	
 
 
 	this.update = function (equipo) {
 		var url = equipos.baseURI +"actualizar/" + equipo.nombre;
-		return $http.put(url, equipo);
+		dato = {'equipo': equipo};
+		return $http.put(url, dato);
 	};
 }]);
 //}else{

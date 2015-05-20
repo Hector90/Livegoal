@@ -19,7 +19,8 @@ import javax.xml.bind.annotation.XmlType;
 @Table(name = "equipos")
 @NamedQueries({
 	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p order by p.nombre asc"),
-	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre")
+	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre"),
+	@NamedQuery(name="Equipo.borraPorNombre", query = "DELETE FROM Equipo p WHERE p.nombre = :nombre")
 })
 //
 
