@@ -92,33 +92,6 @@ public class EquipoServicios {
 	  }
 	}
 	
-//    @PUT
-//    @Path("actualizar/{nombre}")
-//    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-//		
-
-//    }
-//
-//    @PUT
-//    @Path("{nombre}")
-//    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-//        if(!nombre.equals(equipo.getNombre())) {
-//            return Response.status(Response.Status.BAD_REQUEST).build();
-//        }
-//        else {
-//            if (equipoJPA.actualizaEquipo(equipo) == true){
-//					return Response.status(Response.Status.NO_CONTENT).build();                
-//			}
-//            else {
-//            	equipoJPA.nuevoEquipo(equipo);
-//                return Response.ok(equipo).build();
-//            }
-//        }
-//    }
     @DELETE
     @Path("{nombre}")
     @Produces("application/json")
