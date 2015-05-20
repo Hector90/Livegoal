@@ -58,6 +58,7 @@ public class EquipoServicios {
     }
 
     @POST
+    @Path("{nombre}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(

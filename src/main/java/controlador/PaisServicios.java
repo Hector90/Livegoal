@@ -58,11 +58,14 @@ public class PaisServicios {
     }
 
     @POST
+    @Path("{nombre}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
             @FormParam("nombre") String nombre,Pais pais
             ) {
+    	
+    	System.out.println("Entro al metodos pos con el pais " + pais.getNombre());
         if (paisJPA.buscaPaisPorNombre(nombre) != PaisJPA.ENTRADA_NULL) {
             paisJPA.nuevoPais(pais);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
