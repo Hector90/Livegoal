@@ -62,9 +62,9 @@ public class EquipoServicios {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-            @FormParam("nombre") String nombre,Equipo equipo
+    		@PathParam("nombre") String nombre,Equipo equipo
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) != EquipoJPA.ENTRADA_NULL) {
+        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
             equipoJPA.nuevoEquipo(equipo);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();
@@ -79,16 +79,14 @@ public class EquipoServicios {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response actualizaEquipo(@PathParam("nombre") String nombre, Equipo equipo) {
 		
-      if(!nombre.equals(equipo.getNombre())) {
-     return Response.status(Response.Status.BAD_REQUEST).build();
-      }else {
-	      if (equipoJPA.actualizaEquipo(equipo) == true){
+
+	      if (equipoJPA.actualizaEquipo(nombre, equipo) == true){
 					return Response.status(Response.Status.NO_CONTENT).build();                
 			}
 	      else {
-	      	equipoJPA.actualizaEquipo(equipo);
+	      	equipoJPA.actualizaEquipo(nombre, equipo);
 	          return Response.ok(equipo).build();
-	      }
+	      
 	  }
 	}
 	

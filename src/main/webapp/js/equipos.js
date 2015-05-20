@@ -52,7 +52,6 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 	self.create = function (nombre,escudo,pais, aficionados) {			
 			EquiposAService.create(nombre,escudo,pais, aficionados)
 			.success(function (data) {
-				borraCampos($scope);
 				EquiposAService.retrieveAll()
 				.success(function (data) {
 					$scope.equipos = data.equipo;
@@ -66,7 +65,7 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 	self.retrieveContact = function(nombre) {
 		EquiposAService.retrieveContact(nombre)
 		.success(function(data) {
-			
+			$scope.nombreUpdate=nombre;
 			$scope.CurrentEquipo = data.equipo;
 
 		});
@@ -78,7 +77,7 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 				$scope.CurrentEquipo.pais=$scope.paises[x];
 			}
 		}
-		EquiposAService.update($scope.CurrentEquipo)
+		EquiposAService.update($scope.CurrentEquipo,$scope.nombreUpdate)
 			.success(function(data) {
 				EquiposAService.retrieveAll()
 				.success(function (data) {
@@ -111,7 +110,7 @@ equipos.service('EquiposAService', ['$http', function($http) {
 
 	this.create = function(nombre,escudo,pais, aficionados) {
 		dato = {'equipo': {'nombre': nombre, 'escudo': escudo, 'pais': pais, 'aficionados':aficionados}};
-		
+		debugger;
 		var url = equipos.baseURI + nombre;
 		return $http.post(url, dato);
 	}
@@ -140,8 +139,8 @@ equipos.service('EquiposAService', ['$http', function($http) {
 	
 
 
-	this.update = function (equipo) {
-		var url = equipos.baseURI +"actualizar/" + equipo.nombre;
+	this.update = function (equipo,antiguo) {
+		var url = equipos.baseURI +"actualizar/" + antiguo;
 		dato = {'equipo': equipo};
 		return $http.put(url, dato);
 	};

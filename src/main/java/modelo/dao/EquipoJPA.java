@@ -51,11 +51,10 @@ public class EquipoJPA {
 //        em.persist(equipo);
 //        return true;
 //    }
-    public boolean actualizaEquipo(Equipo equipo) {
-    	 System.out.println("hola act");
+    public boolean actualizaEquipo(String nombre,Equipo equipo) {
         TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipo.class);
        
-        query.setParameter("nombre", equipo.getNombre());
+        query.setParameter("nombre", nombre);
         try {
         	Equipo equipoBBDD = query.getSingleResult();
         	equipoBBDD.setNombre(equipo.getNombre());
