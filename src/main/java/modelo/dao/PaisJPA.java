@@ -42,15 +42,17 @@ public class PaisJPA {
         return Paises;
     }
    
-    public boolean actualizaPais(Pais Pais) {
-        TypedQuery<Pais> query = em.createNamedQuery("Pais.encuentraPorNombre", Pais.class);
-        query.setParameter("nombre", Pais.getNombre());
+    public boolean actualizaPais(String nombre,Pais pais) {
+    	TypedQuery<Pais> query = em.createNamedQuery("Pais.updatePorNombre", Pais.class);
+        query.setParameter("nombre", pais.getNombre());
+        query.setParameter("abreviatura",pais.getAbreviatura());
+        query.setParameter("nombre2", nombre);
+        query.setParameter("bandera", pais.getBandera());
+        System.out.println(nombre);
         try {
-        	Pais PaisBBDD = query.getSingleResult();
-        	PaisBBDD.setNombre(Pais.getNombre());
-        	PaisBBDD.setAbreviatura(Pais.getAbreviatura());
-        	PaisBBDD.setBandera(Pais.getBandera());
-        	return true;
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
         } catch (NoResultException e) {
             return false;
         }

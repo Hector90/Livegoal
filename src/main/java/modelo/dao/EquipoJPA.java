@@ -52,16 +52,16 @@ public class EquipoJPA {
 //        return true;
 //    }
     public boolean actualizaEquipo(String nombre,Equipo equipo) {
-        TypedQuery<Equipo> query = em.createNamedQuery("Equipo.encuentraPorNombre", Equipo.class);
-       
-        query.setParameter("nombre", nombre);
+    	TypedQuery<Equipo> query = em.createNamedQuery("Equipo.updatePorNombre", Equipo.class);
+        query.setParameter("pais", equipo.getPais());
+        query.setParameter("nombre", equipo.getNombre());
+        query.setParameter("nombre2", nombre);
+        query.setParameter("escudo", equipo.getEscudo());
+        query.setParameter("aficionados", equipo.getAficionados());
         try {
-        	Equipo equipoBBDD = query.getSingleResult();
-        	equipoBBDD.setNombre(equipo.getNombre());
-        	equipoBBDD.setPais(equipo.getPais());
-        	equipoBBDD.setEscudo(equipo.getEscudo());
-        	equipoBBDD.setAficionados(equipo.getAficionados());
-            return true;
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
         } catch (NoResultException e) {
             return false;
         }

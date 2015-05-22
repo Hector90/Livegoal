@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import modelo.datos.Equipo;
 import modelo.datos.Partido;
 
 
@@ -49,31 +50,41 @@ public class PartidoJPA {
         return partidos;
     }
     
-    public boolean actualizaPartido(Partido partido) {
-        TypedQuery<Partido> query = em.createNamedQuery("Partido.encuentraPorEquipos", Partido.class);
+    public boolean actualizaPartido(String equipo1,String equipo2, Partido partido) {
+    	TypedQuery<Equipo> query = em.createNamedQuery("Partido.updatePorEquipos", Equipo.class);
         query.setParameter("e1", partido.getEquipo1());
         query.setParameter("e2", partido.getEquipo2());
+        query.setParameter("fecha", partido.getFecha());
+        query.setParameter("jornada", partido.getJornada());
+        query.setParameter("liga", partido.getLiga());
+        query.setParameter("estado", partido.getEstado());
+        query.setParameter("goles1", partido.getGoles1());
+        query.setParameter("goles2", partido.getGoles2());
+        query.setParameter("amarillas1", partido.getAmarillas1());
+        query.setParameter("amarillas2", partido.getAmarillas2());
+        query.setParameter("rojas1", partido.getRojas1());
+        query.setParameter("rojas2", partido.getRojas2());
         
         try {
-        	Partido partidoBBDD = query.getSingleResult();
-        	partidoBBDD.setEquipo1(partido.getEquipo1());
-        	partidoBBDD.setEquipo2(partido.getEquipo2());
-        	partidoBBDD.setAmarillas1(partido.getAmarillas1());
-        	partidoBBDD.setAmarillas2(partido.getAmarillas2());
-        	partidoBBDD.setRojas1(partido.getRojas1());
-        	partidoBBDD.setRojas2(partido.getRojas2());
-        	partidoBBDD.setFecha(partido.getFecha());
-        	partidoBBDD.setJornada(partido.getJornada());
-        	partidoBBDD.setGoles1(partido.getGoles1());
-        	partidoBBDD.setGoles2(partido.getGoles2());
-        	partidoBBDD.setLiga(partido.getLiga());
-        	partidoBBDD.setEstado(partido.getEstado());  	
-        	
-        	return true;
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
         } catch (NoResultException e) {
             return false;
         }
     }
-
+    
+    public boolean borraPartido(String equipo1, String equipo2) {
+        TypedQuery<Equipo> query = em.createNamedQuery("Partidos.borraPorEquipos", Equipo.class);
+        query.setParameter("e1", equipo1);
+        query.setParameter("e2", equipo2);
+        try {
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
 	
 }

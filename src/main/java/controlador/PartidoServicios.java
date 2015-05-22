@@ -21,9 +21,12 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import modelo.dao.EquipoJPA;
+import modelo.dao.PaisJPA;
 import modelo.dao.PartidoJPA;
 import modelo.datos.Equipo;
+import modelo.datos.Pais;
 import modelo.datos.Partido;
+import modelo.datos.Usuario;
 
 @Path("partidos")
 @Stateless
@@ -41,74 +44,63 @@ public class PartidoServicios {
 
     @GET
     @Produces("application/json")
-    public Response listaTodasPartidos() {
+    public Response listaTodosPartidos() {
         Partido[] partidos = partidoJPA.listaTodosPartidos();
+        
         return Response.ok(partidos).build();
     }
-    /*
+    //
 
     @GET
     @Path("{nombre}")
     @Produces("application/json")
-    public Response buscarEquipoPorNombre(@PathParam("nombre") String nombre) {
-    	Equipo equipo = equipoJPA.buscaEquipoPorNombre(nombre);
-    		if (equipo == EquipoJPA.ENTRADA_NULL)
+    public Response buscarPartidoPorEquipos(@PathParam("nombre1") String nombre1, @PathParam("nombre2") String nombre2) {
+    	Partido partido = partidoJPA.buscaPartido(nombre1, nombre2);
+    		if (partido == PartidoJPA.ENTRADA_NULL)
     			return Response.status(Response.Status.NOT_FOUND).build();
-    		return Response.ok(equipo).build();
+    		return Response.ok(partido).build();
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("{nombre}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-            @FormParam("nombre") String nombre
+    		@PathParam("nombre") String nombre,Partido partido
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
-            Equipo equipo = new Equipo();
-            equipoJPA.nuevoEquipo(equipo);
+        if (partidoJPA.buscaPartido(partido.getEquipo1().getNombre(), partido.getEquipo2().getNombre()) == PartidoJPA.ENTRADA_NULL) {
+            partidoJPA.nuevoPartido(partido);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();
-            return Response.created(uri).entity(equipo).build();
+            return Response.created(uri).entity(partido).build();
         } else
             return Response.status(Response.Status.CONFLICT).build();
     }
-
-    @PUT
-    @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
+    
+	@PUT
+	@Path("actualizar/{nombre}")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response actualizaEquipo(@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2, Partido partido) {
 		
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
+
+	      if (partidoJPA.actualizaPartido(nombre1, nombre2, partido) == true){
 					return Response.status(Response.Status.NO_CONTENT).build();                
 			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
-    }
+	      else {
+	      	partidoJPA.actualizaPartido(nombre1, nombre2, partido);
+	          return Response.ok(partido).build();
+	      
+	  }
+	}
+	
     @DELETE
     @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response borrarEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-		
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
-					return Response.status(Response.Status.NO_CONTENT).build();                
-			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
-    }*/
+    @Produces("application/json")
+    public Response borraEntrada(@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2) {
+            if (partidoJPA.borraPartido(nombre1, nombre2) == true)
+                return Response.status(Response.Status.ACCEPTED).build();
+            else
+                return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }

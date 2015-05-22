@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html ng-app="partidos">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Livegoal | Gestionar Partidos</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+
+
+    <!-- Mis scripts-->
+    <script src="../../js/cookies.js"></script>
+    <script src="../../js/partidos.js"></script>
+    <script>
+
+    </script>
+ </head>
+    		
+<body ng-controller="PartidosCtrl as PartidosCtrl">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Livegoal</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+	        <li><a href="gestionarEquipos.html">Equipos</a></li>
+	        <li class="active"><a href="gestionarPartidos.html">Partidos</a></li> 
+			<li><a href="gestionarPaises.html">Paises</a></li>
+			<li><a href="gestionarLigas.html">Ligas</a></li>
+      </ul>     
+          <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+	        <li><a href="../index.html" Onclick="eraseCookie('LoginLivegoal')"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+	      </ul>
+       
+    </div>
+  </div>
+</nav>
+<div class="container" >
+    <h1>Gestión de Partidos</h1>
+      
+        <div class="table-responsive">
+        <table class="table table-hover ">
+            <tr>
+				<th>Fecha</th>
+            	<th>Local</th>
+            	<th>-</th>
+				<th>-</th>
+				<th>Visitante</th>
+            </tr>
+            <tbody>
+            <tr ng-repeat="a in partidos" id="{{a.equipo1}}">
+                <td>{{a.fecha}}</td>
+                <td>{{a.equipo1}}</td>
+				<td>{{a.goles1}}</td>
+				<td>{{a.goles2}}</td>
+				<td>{{a.equipo2}}</td>
+                <td><button  id="update:{{a.equipo1}+{a.equipo2}}" type="submit" class="btn btn-info btn-sm" data-toggle="modal" data-target="#actualizar"
+                        ng-click="PartidosCtrl.retrieveContact(a.equipo1,a.equipo2)">
+                        <span class="glyphicon glyphicon-pencil"></span> Actualizar</button></td>
+               <td> 
+	            	<button type="submit" class="btn btn-danger btn-sm" data-toggle="modal" 
+	            	data-target="#eliminar" ng-click="PartidosCtrl.remove(a.equipo1,a.equipo2)">
+				    <span class="glyphicon glyphicon-folder-close"></span> Eliminar</button>
+				</td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+<!-- Ventana modal actualizar -->
+    <div class="modal fade" id="actualizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-update">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentPartido.equipo1} {CurrentPartido.equipo2}}</h4>
+                </div>
+                <div class="modal-body">
+					
+					 <form name="updateForm">
+					
+					 <div class="form-group">					    	
+						    <label>Equipo1:</label>
+					   		<input type="text" id="equipo1U" disabled name="equipo1U" class="form-control" ng-model="CurrentPartido.equipo1"> 
+					  </div>
+					<div class="form-group">					    	
+						    <label>Equipo2:</label>
+					   		<input type="text" id="equipo2U" disabled name="equipo2U" class="form-control" ng-model="CurrentPartido.equipo2"> 
+					  </div>
+					<div class="form-group">					    	
+						    <label>Fecha:</label>
+					   		<input type="text" id="fechaU" disabled name="fechaU" class="form-control" ng-model="CurrentPartido.fecha"> 			
+					  </div>
+					  <div class="form-group">					    	
+						    <label>Goles L:</label>
+					   		<input type="text" id="goles1U" disabled name="goles1U" class="form-control" ng-model="CurrentPartido.goles1"> 
+					  </div>
+					 <div class="form-group">					    	
+						    <label>Goles V:</label>
+					   		<input type="text" id="goles2U" disabled name="goles2U" class="form-control" ng-model="CurrentPartido.goles2"> 
+					  </div>
+					 <div class="form-group">					    	
+						    <label>Amarillas L:</label>
+					   		<input type="text" id="amarillas1U" disabled name="amarillas1U" class="form-control" ng-model="CurrentPartido.amarillas1"> 
+					  </div>
+					 <div class="form-group">					    	
+						    <label>Amarillas V:</label>
+					   		<input type="text" id="amarillas2U" disabled name="amarillas2U" class="form-control" ng-model="CurrentPartido.amarillas2"> 
+					  </div>
+					 <div class="form-group">					    	
+						    <label>Rojas L:</label>
+					   		<input type="text" id="rojas1U" disabled name="rojas1U" class="form-control" ng-model="CurrentPartido.rojas1"> 
+					  </div>
+					 <div class="form-group">					    	
+						    <label>Rojas V:</label>
+					   		<input type="text" id="rojas2U" disabled name="rojas2U" class="form-control" ng-model="CurrentPartido.rojas2"> 
+					  </div>
+					 
+					 
+					  
+					  <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                    <button type="button" class="btn btn-info"
+		                            ng-click="PartidosCtrl.update(currentPartido)"
+		                            >Actualizar</button>
+					 </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div> 
+	<!-- FIN ACTUALIZAR -->
+	<button type="submit" id="añadir1" ng-hide="add" class="btn btn-success" data-toggle="modal" data-target="#create" ng-click="resetForm(user)">
+    <span class="glyphicon glyphicon-plus"></span>Añadir</button>
+	<!-- Ventana Modal insertar-->
+		<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header modal-header-new">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-plus"></i> Nueva Partido</h4>
+		      </div>
+		      <div class="modal-body">
+		      <form id="createForm" name="createForm" >
+				<div class="form-group"  >
+				   	<label>Local:</label>
+				   	<select ng-model="user.equipo1" ng-options="p as p.nombre for p in esquipos"></select>
+			  	</div>
+				<div class="form-group"  >
+				   	<label>Visitante:</label>
+				   	<select ng-model="user.equipo2" ng-options="p as p.nombre for p in esquipos"></select>
+			  	</div>
+				<div class="form-group"  >
+					<label>Fecha:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.fecha"  id="fecha" name="fecha" required/>
+			  	</div>
+			  	<div class="form-group"  >
+					<label>Goles L:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.goles1"  id="goles1" name="goles1" required/>
+			  	</div>
+				<div class="form-group"  >
+					<label>Goles V:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.goles2"  id="goles2" name="goles2" required/>
+			  	</div>
+				<div class="form-group"  >
+					<label>Amarillas L:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.amarillas1"  id="amarillas1" name="amarillas1" required/>
+			  	</div>		
+				<div class="form-group"  >
+					<label>Amarillas V:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.amarillas2"  id="amarillas2" name="amarillas2" required/>
+			  	</div>
+				<div class="form-group"  >
+					<label>Rojas L:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.rojas1"  id="rojas1" name="rojas1" required/>
+			  	</div>
+				<div class="form-group"  >
+					<label>Rojas V:</label>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.rojas2"  id="rojas2" name="rojas2" required/>
+			  	</div>
+  		       <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        <button id="añadir" type="submit" ng-click="PartidosCtrl.create(user.equipo1.user.equipo2,user.fecha,user.goles1,user.goles2,user.amarillas1,user.amarillas2,user.rojas1,user.rojas2)"
+		        class="btn btn-success">Añadir</button>
+		      </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- FIN INSERTAR -->
+</body>
+</html>

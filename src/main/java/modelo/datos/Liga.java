@@ -21,7 +21,9 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Liga.encuentraTodas", query = "SELECT p FROM Liga p"),
-	@NamedQuery(name="Liga.encuentraPorNombre", query = "SELECT p FROM Liga p WHERE p.nombre = :nombre")
+	@NamedQuery(name="Liga.encuentraPorNombre", query = "SELECT p FROM Liga p WHERE p.nombre = :nombre"),
+	@NamedQuery(name="Liga.borraPorNombre", query = "DELETE FROM Liga p WHERE p.nombre = :nombre"),
+	@NamedQuery(name="Liga.updatePorNombre", query = "update Liga p set p.nombre=:nombre,p.pais = :pais where p.nombre=:nombre2")
 
 
 })

@@ -24,9 +24,10 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
 	@NamedQuery(name="Pais.encuentraTodos", query = "SELECT p FROM Pais p"),
 	@NamedQuery(name="Pais.encuentraPorNombre", query = "SELECT p FROM Pais p WHERE p.nombre = :nombre"),
-	@NamedQuery(name="Pais.borraPorNombre", query = "DELETE FROM Pais p WHERE p.nombre = :nombre")
-
-
+	@NamedQuery(name="Pais.borraPorNombre", query = "DELETE FROM Pais p WHERE p.nombre = :nombre"),
+	@NamedQuery(name="Pais.updatePorNombre", query = "update Pais p set p.nombre=:nombre, p.abreviatura=:abreviatura,"
+			+ "p.bandera=:bandera"
+			+ " where p.nombre=:nombre2")
 })
 @Table(name = "paises")
 //

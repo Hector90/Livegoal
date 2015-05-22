@@ -42,7 +42,7 @@ paises.controller('PaisesCtrl', ['$scope', 'PaisesAService',
 	self.create = function (nombre,bandera,abreviatura) {			
 			PaisesAService.create(nombre,bandera,abreviatura)
 			.success(function (data) {
-				borraCampos($scope);
+				//borraCampos($scope);
 				PaisesAService.retrieveAll()
 				.success(function (data) {
 					$scope.paises = data.pais;
@@ -120,8 +120,8 @@ paises.service('PaisesAService', ['$http', function($http) {
 		return $http.delete(url);
 	}
 	
-	this.update = function (pais) {
-		var url = paises.baseURI +"actualizar/" + pais.nombre;
+	this.update = function (pais, antiguo) {
+		var url = paises.baseURI +"actualizar/" + antiguo;
 		dato = {'pais': pais};
 		return $http.put(url, dato);
 	};

@@ -43,6 +43,7 @@
 	        <li><a href="gestionarEquipos.html">Equipos</a></li>
 	        <li><a href="gestionarPartidos.html">Partidos</a></li> 
 			<li class="active"><a href="">Paises</a></li>
+			<li><a href="gestionarLigas.html">Ligas</a></li>
       </ul>     
           <ul class="nav navbar-nav navbar-right">
 	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
@@ -101,12 +102,12 @@
 					  </div>
 					  <div class="form-group">					    	
 						    <label>Abreviatura:</label>
-					   		<input type="text" id="nombreU" name="escudoU" class="form-control" ng-model="CurrentPais.abreviatura" 
+					   		<input type="text" id="abreviaturaU" name="abreviaturaU" class="form-control" ng-model="CurrentPais.abreviatura" 
 								   ng-minlength="1" ng-maxlength="50" required> 
 					  </div>
 					  <div class="form-group">					    	
 						    <label>Bandera:</label>
-					   		<input type="text" id="nombreU" name="aficionadosU" class="form-control" ng-model="CurrentPais.bandera" 
+					   		<input type="text" id="banderaU" name="banderaU" class="form-control" ng-model="CurrentPais.bandera" 
 								   ng-minlength="1" ng-maxlength="50" required> 
 					  </div>
 	                  <div class="modal-footer">

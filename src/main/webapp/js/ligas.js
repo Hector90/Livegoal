@@ -2,10 +2,10 @@ var loged=readCookie("LoginLivegoal");
 //if(loged==="admin"){
 	
 
-var equipos = angular.module("equipos", []); 
-equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService', 
-                                 function ($scope, EquiposAService) { //Inyecta los atributos
-	equipos.baseURI = 'http://localhost:8080/Livegoal/equipos/';
+var ligas = angular.module("ligas", []); 
+ligas.controller('LigasCtrl', ['$scope', 'LigasAService', 
+                                 function ($scope, LigasAService) { //Inyecta los atributos
+	ligas.baseURI = 'http://localhost:8080/Livegoal/ligas/';
 
 	var self = this;
 	
@@ -15,17 +15,17 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 
 	$scope.resetForm = function(user){ 
 		var defaultForm = {
-				nombre:"", escudo:"", pais:{}, aficionados:""
+				nombre:"",  pais:{}
 		};
 		$scope.createForm.$setPristine();
 		$scope.user = defaultForm;
 	};
 
 
-//	Comprueba en tiempo real si el equipo introducido ya existe
+//	Comprueba en tiempo real si el liga introducido ya existe
 	$scope.comprobar = function(nombre){
 
-		EquiposAService.retrieveContact(nombre).success(function(data){
+		LigasAService.retrieveContact(nombre).success(function(data){
 			$scope.createForm.nombre.$setValidity("nombre", false);
 			$scope.updateForm.nombreU.$setValidity("nombreU", false);
 		}).error(function(){
@@ -41,20 +41,20 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 
 
 
-	$scope.equipos = EquiposAService.retrieveAll()
+	$scope.ligas = LigasAService.retrieveAll()
 	.success(function(data){
-		$scope.equipos = data.equipo;	
+		$scope.ligas = data.liga;	
 	});
-	$scope.paises = EquiposAService.retrieveAllPaises()
+	$scope.paises = LigasAService.retrieveAllPaises()
 	.success(function(data){
 		$scope.paises = data.pais;	
 	});
-	self.create = function (nombre,escudo,pais, aficionados) {			
-			EquiposAService.create(nombre,escudo,pais, aficionados)
+	self.create = function (nombre,pais) {			
+			LigasAService.create(nombre,pais)
 			.success(function (data) {
-				EquiposAService.retrieveAll()
+				LigasAService.retrieveAll()
 				.success(function (data) {
-					$scope.equipos = data.equipo;
+					$scope.ligas = data.liga;
 					$scope.createForm.$setPristine(); 
 				});
 			});
@@ -63,25 +63,25 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 
 
 	self.retrieveContact = function(nombre) {
-		EquiposAService.retrieveContact(nombre)
+		LigasAService.retrieveContact(nombre)
 		.success(function(data) {
 			$scope.nombreUpdate=nombre;
-			$scope.CurrentEquipo = data.equipo;
+			$scope.CurrentLiga = data.liga;
 
 		});
 	};
 
 	self.update = function() {
 		for (var x=0;x<$scope.paises.length;x++){
-			if($scope.CurrentEquipo.pais.nombre==$scope.paises[x].nombre){
-				$scope.CurrentEquipo.pais=$scope.paises[x];
+			if($scope.CurrentLiga.pais.nombre==$scope.paises[x].nombre){
+				$scope.CurrentLiga.pais=$scope.paises[x];
 			}
 		}
-		EquiposAService.update($scope.CurrentEquipo,$scope.nombreUpdate)
+		LigasAService.update($scope.CurrentLiga,$scope.nombreUpdate)
 			.success(function(data) {
-				EquiposAService.retrieveAll()
+				LigasAService.retrieveAll()
 				.success(function (data) {
-					$scope.equipos = data.equipo;
+					$scope.ligas = data.liga;
 
 				});
 				$('#actualizar').modal('hide');
@@ -89,11 +89,11 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 
 	};
 	self.remove=function(nombre){
-		EquiposAService.remove(nombre)
+		LigasAService.remove(nombre)
 		.success(function(data) {
-			EquiposAService.retrieveAll()
+			LigasAService.retrieveAll()
 			.success(function (data) {
-				$scope.equipos = data.equipo;
+				$scope.ligas = data.liga;
 
 			});
 			
@@ -106,18 +106,18 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 
 
 //FUNCION SERVICIOS WEB EQUIPOS
-equipos.service('EquiposAService', ['$http', function($http) {
+ligas.service('LigasAService', ['$http', function($http) {
 
-	this.create = function(nombre,escudo,pais, aficionados) {
-		dato = {'equipo': {'nombre': nombre, 'escudo': escudo, 'pais': pais, 'aficionados':aficionados}};
+	this.create = function(nombre,pais) {
+		dato = {'liga': {'nombre': nombre,  'pais': pais}};
 
 		
-		var url = equipos.baseURI + nombre;
+		var url = ligas.baseURI + nombre;
 		return $http.post(url, dato);
 	}
 
 	this.retrieveAll = function() {
-		var url = equipos.baseURI;
+		var url = ligas.baseURI;
 		return $http.get(url);
 	}
 	
@@ -128,21 +128,21 @@ equipos.service('EquiposAService', ['$http', function($http) {
 	
 
 	this.retrieveContact = function(nombre) {
-		var url = equipos.baseURI + nombre;
+		var url = ligas.baseURI + nombre;
 		
 		return $http.get(url);
 	}
 
 	this.remove = function(nombre){
-		var url = equipos.baseURI + nombre;
+		var url = ligas.baseURI + nombre;
 		return $http.delete(url);
 	}
 	
 
 
-	this.update = function (equipo,antiguo) {
-		var url = equipos.baseURI +"actualizar/" + antiguo;
-		dato = {'equipo': equipo};
+	this.update = function (liga,antiguo) {
+		var url = ligas.baseURI +"actualizar/" + antiguo;
+		dato = {'liga': liga};
 		return $http.put(url, dato);
 	};
 }]);

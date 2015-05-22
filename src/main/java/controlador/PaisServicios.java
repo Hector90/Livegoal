@@ -62,11 +62,9 @@ public class PaisServicios {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-            @FormParam("nombre") String nombre,Pais pais
+            @PathParam("nombre") String nombre,Pais pais
             ) {
-    	
-    	System.out.println("Entro al metodos pos con el pais " + pais.getNombre());
-        if (paisJPA.buscaPaisPorNombre(nombre) != PaisJPA.ENTRADA_NULL) {
+    	if (paisJPA.buscaPaisPorNombre(nombre) == PaisJPA.ENTRADA_NULL) {
             paisJPA.nuevoPais(pais);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();
@@ -80,19 +78,11 @@ public class PaisServicios {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Pais pais) {
-		System.out.println("Pais a modificar" + nombre);
-		System.out.println("Su nuevo nombre" + pais.getNombre());
-        if(!nombre.equals(pais.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (paisJPA.actualizaPais(pais)== true){
-					return Response.status(Response.Status.NO_CONTENT).build();                
-			}
-            else {
-            	paisJPA.nuevoPais(pais);
-                return Response.ok(pais).build();
-            }
+    	if (paisJPA.actualizaPais(nombre, pais) == true){
+    		return Response.status(Response.Status.NO_CONTENT).build();                
+		} else {
+			paisJPA.actualizaPais(nombre, pais);
+			return Response.ok(pais).build();
         }
     }
     @DELETE

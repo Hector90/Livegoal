@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="equipos">
+<html ng-app="ligas">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Livegoal | Gestionar Equipos</title>
+    <title>Livegoal | Gestionar Ligas</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <!-- Latest compiled and minified CSS -->
@@ -18,13 +18,13 @@
 
     <!-- Mis scripts-->
     <script src="../../js/cookies.js"></script>
-    <script src="../../js/equipos.js"></script>
+    <script src="../../js/ligas.js"></script>
     <script>
 
     </script>
  </head>
     		
-<body ng-controller="EquiposCtrl as EquiposCtrl">
+<body ng-controller="LigasCtrl as LigasCtrl">
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
 
@@ -40,10 +40,10 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-			<li class="active"><a href="gestionarEquipos.html">Equipos</a></li>
+	        <li><a href="gestionarEquipos.html">Equipos</a></li>
 	        <li><a href="gestionarPartidos.html">Partidos</a></li> 
 			<li><a href="gestionarPaises.html">Paises</a></li>
-			<li><a href="gestionarLigas.html">Ligas</a></li>
+			<li class="active"><a href="gestionarLigas.html">Ligas</a></li>
       </ul>     
           <ul class="nav navbar-nav navbar-right">
 	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
@@ -54,33 +54,24 @@
   </div>
 </nav>
 <div class="container" >
-    <h1>Gestión de Equipos</h1>
+    <h1>Gestión de Ligas</h1>
       
         <div class="table-responsive">
         <table class="table table-hover ">
             <tr>
             	<th>Nombre</th>
-				<th>Escudo</th>
             	<th>Pais</th><th></th>
-            	<th>Aficionados</th>
-            	
             </tr>
             <tbody>
-            <tr ng-repeat="a in equipos" id="{{a.nombre}}">
+            <tr ng-repeat="a in ligas" id="{{a.nombre}}">
                 <td>{{a.nombre}}</td>
-               
-                <td><img src=../../images/escudos/{{a.escudo}} height="40" width="40"></td>
                 <td>{{a.pais.nombre}}</td><td><img src=../../images/paises/{{a.pais.bandera}} height="40" width="40">  </td>
-                <td>{{a.aficionados}}</td>
-
-                                
                 <td><button  id="update:{{a.nombre}}" type="submit" class="btn btn-info btn-sm" data-toggle="modal" data-target="#actualizar"
-                        ng-click="EquiposCtrl.retrieveContact(a.nombre)">
+                        ng-click="LigasCtrl.retrieveContact(a.nombre)">
                         <span class="glyphicon glyphicon-pencil"></span> Actualizar</button></td>
-               
                <td> 
 	            	<button type="submit" class="btn btn-danger btn-sm" data-toggle="modal" 
-	            	data-target="#eliminar" ng-click="EquiposCtrl.remove(a.nombre)">
+	            	data-target="#eliminar" ng-click="LigasCtrl.remove(a.nombre)">
 				    <span class="glyphicon glyphicon-folder-close"></span> Eliminar</button>
 				</td>
             </tr>
@@ -96,7 +87,7 @@
                 <div class="modal-header modal-header-update">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel">
-                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentEquipo.nombre}}</h4>
+                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentLiga.nombre}}</h4>
                 </div>
                 <div class="modal-body">
 					
@@ -104,17 +95,12 @@
 					
 					 <div class="form-group">					    	
 						    <label>Nombre:</label>
-					   		<input type="text" id="nombreU" name="nombreU" class="form-control" ng-model="CurrentEquipo.nombre" 
-								   ng-minlength="1" ng-maxlength="50" ng-change="comprobar(CurrentEquipo.nombre)" required> 
-					  </div>
-					  <div class="form-group">					    	
-						    <label>Escudo:</label>
-					   		<input type="text" id="escudoU" name="escudoU" class="form-control" ng-model="CurrentEquipo.escudo" 
-								   ng-minlength="1" ng-maxlength="50" required> 
+					   		<input type="text" id="nombreU" name="nombreU" class="form-control" ng-model="CurrentLiga.nombre" 
+								   ng-minlength="1" ng-maxlength="50" ng-change="comprobar(CurrentLiga.nombre)" required> 
 					  </div>
 					  <div class="form-group">					    	
 						    <label>Pais:</label>
-						    <select ng-model="CurrentEquipo.pais.nombre" ng-r ng-options="p.nombre as p.nombre for p in paises" >
+						    <select ng-model="CurrentLiga.pais.nombre" ng-r ng-options="p.nombre as p.nombre for p in paises" >
 							
 					    	</select>
 <!-- 						    <select ng-model="cpais"> -->
@@ -128,15 +114,10 @@
 <!-- 						    	</select> -->
 					   	
 					  </div>
-					  <div class="form-group">					    	
-						    <label>Aficionados:</label>
-					   		<input type="text" id="aficionadosU" name="aficionadosU" class="form-control" ng-model="CurrentEquipo.aficionados" 
-								   ng-minlength="1" ng-maxlength="50" required> 
-					  </div>
-	                  <div class="modal-footer">
+					  <div class="modal-footer">
 		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 		                    <button type="button" class="btn btn-info"
-		                            ng-click="EquiposCtrl.update(currentEquipo)"
+		                            ng-click="LigasCtrl.update(currentLiga)"
 		                            >Actualizar</button>
 					 </div>
 					</form>
@@ -153,7 +134,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header modal-header-new">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-plus"></i> Nuevo Equipo</h4>
+		        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-plus"></i> Nueva Liga</h4>
 		      </div>
 		      <div class="modal-body">
 		      <form id="createForm" name="createForm" >
@@ -162,10 +143,7 @@
 					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.nombre" ng-change="comprobar(user.nombre)" id="nombre" name="nombre" required/>
 			  				<small class="error" ng-show="updateForm.nombreU.$error.nombreU">*El nombre ya existe</small>
 			  	</div>
-			  					<div class="form-group"  >
-					    	<label>Escudo:</label>
-					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.escudo" id="escudo" name="escudo" required/>
-			  	</div>
+			  					
 			  					<div class="form-group"  >
 					    	<label>Pais:</label>
 					    	<select ng-model="user.pais" ng-options="p as p.nombre for p in paises">
@@ -176,13 +154,10 @@
 						
 
 			  	</div>
-			  					<div class="form-group"  >
-					    	<label>Aficionados:</label>
-					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.aficionados" id="aficionados" name="aficionados" required/>
-			  	</div>
+			  					
   		       <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-		        <button id="añadir" type="submit" ng-click="EquiposCtrl.create(user.nombre,user.escudo,user.pais,user.aficionados)" 
+		        <button id="añadir" type="submit" ng-click="LigasCtrl.create(user.nombre,user.pais)" 
 		        class="btn btn-success">Añadir</button>
 		      </div>
 					</form>

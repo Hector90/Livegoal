@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import controlador.Funciones;
+
 @XmlRootElement
 @XmlType(propOrder = {"nombre","pais","escudo","aficionados"})
 @Entity
@@ -20,7 +22,8 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
 	@NamedQuery(name="Equipo.encuentraTodos", query = "SELECT p FROM Equipo p order by p.nombre asc"),
 	@NamedQuery(name="Equipo.encuentraPorNombre", query = "SELECT p FROM Equipo p WHERE p.nombre = :nombre"),
-	@NamedQuery(name="Equipo.borraPorNombre", query = "DELETE FROM Equipo p WHERE p.nombre = :nombre")
+	@NamedQuery(name="Equipo.borraPorNombre", query = "DELETE FROM Equipo p WHERE p.nombre = :nombre"),
+	@NamedQuery(name="Equipo.updatePorNombre", query = "update Equipo p set p.nombre=:nombre,p.pais = :pais,p.escudo=:escudo,p.aficionados=:aficionados where p.nombre=:nombre2")
 })
 //
 
@@ -77,7 +80,14 @@ public class Equipo {
 	}
 
 	public void setAficionados(String aficionados) {
-		this.aficionados = aficionados;
+		if(Funciones.isNumeric(aficionados)){
+			this.aficionados = aficionados;
+			
+		}else{
+			this.aficionados = "0";			
+		}
+		
+		
 	}
 
 

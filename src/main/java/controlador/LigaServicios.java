@@ -1,5 +1,6 @@
 package controlador;
 
+
 import java.net.URI;
 
 import javax.ejb.Stateless;
@@ -22,8 +23,11 @@ import javax.ws.rs.core.UriInfo;
 
 import modelo.dao.EquipoJPA;
 import modelo.dao.LigaJPA;
+import modelo.dao.PaisJPA;
 import modelo.datos.Equipo;
 import modelo.datos.Liga;
+import modelo.datos.Pais;
+import modelo.datos.Usuario;
 
 @Path("ligas")
 @Stateless
@@ -43,72 +47,61 @@ public class LigaServicios {
     @Produces("application/json")
     public Response listaTodasLigas() {
         Liga[] ligas = ligaJPA.listaTodasLigas();
+        
         return Response.ok(ligas).build();
     }
-    /*
+    //
 
     @GET
     @Path("{nombre}")
     @Produces("application/json")
-    public Response buscarEquipoPorNombre(@PathParam("nombre") String nombre) {
-    	Equipo equipo = equipoJPA.buscaEquipoPorNombre(nombre);
-    		if (equipo == EquipoJPA.ENTRADA_NULL)
+    public Response buscarPaisPorNombre(@PathParam("nombre") String nombre) {
+    	Liga liga = ligaJPA.buscaLigaPorNombre(nombre);
+    		if (liga == LigaJPA.ENTRADA_NULL)
     			return Response.status(Response.Status.NOT_FOUND).build();
-    		return Response.ok(equipo).build();
+    		return Response.ok(liga).build();
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("{nombre}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-            @FormParam("nombre") String nombre
+    		@PathParam("nombre") String nombre,Liga liga
             ) {
-        if (equipoJPA.buscaEquipoPorNombre(nombre) == EquipoJPA.ENTRADA_NULL) {
-            Equipo equipo = new Equipo();
-            equipoJPA.nuevoEquipo(equipo);
+        if (ligaJPA.buscaLigaPorNombre(nombre) == LigaJPA.ENTRADA_NULL) {
+            ligaJPA.nuevaLiga(liga);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
             URI uri = uriBuilder.path(nombre).build();
-            return Response.created(uri).entity(equipo).build();
+            return Response.created(uri).entity(liga).build();
         } else
             return Response.status(Response.Status.CONFLICT).build();
     }
-
-    @PUT
-    @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response creaNuevaEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
+    
+	@PUT
+	@Path("actualizar/{nombre}")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response actualizaLiga(@PathParam("nombre") String nombre, Liga liga) {
 		
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
+
+	      if (ligaJPA.actualizaLiga(nombre, liga) == true){
 					return Response.status(Response.Status.NO_CONTENT).build();                
 			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
-    }
+	      else {
+	      	ligaJPA.actualizaLiga(nombre, liga);
+	          return Response.ok(liga).build();
+	      
+	  }
+	}
+	
     @DELETE
     @Path("{nombre}")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response borrarEntrada(@PathParam("nombre") String nombre, Equipo equipo) {
-		
-        if(!nombre.equals(equipo.getNombre())) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            if (equipoJPA.actualizaEquipo(equipo) == true){
-					return Response.status(Response.Status.NO_CONTENT).build();                
-			}
-            else {
-            	equipoJPA.nuevoEquipo(equipo);
-                return Response.ok(equipo).build();
-            }
-        }
-    }*/
+    @Produces("application/json")
+    public Response borraEntrada(@PathParam("nombre") String nombre) {
+            if (ligaJPA.borraLiga(nombre) == true)
+                return Response.status(Response.Status.ACCEPTED).build();
+            else
+                return Response.status(Response.Status.NOT_FOUND).build();
+    }
 }

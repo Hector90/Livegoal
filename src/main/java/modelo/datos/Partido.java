@@ -27,7 +27,11 @@ import javax.xml.bind.annotation.XmlType;
 	@NamedQuery(name="Partido.encuentraTodos", query = "SELECT p FROM Partido p"),
 	@NamedQuery(name="Partido.encuentraPorEquipos", query = "SELECT p FROM Partido p WHERE p.equipo1 = :e1 and p.equipo2 = :e2"),
 	@NamedQuery(name="Partido.encuentraPartidosEquipo", query = "SELECT p FROM Partido p WHERE p.equipo1 = :e1 or p.equipo2 = :e1"),
-	@NamedQuery(name="Partido.encuentraPorLiga", query = "SELECT p FROM Partido p WHERE p.liga = :liga ")
+	@NamedQuery(name="Partido.encuentraPorLiga", query = "SELECT p FROM Partido p WHERE p.liga = :liga "),
+	@NamedQuery(name="Partido.borraPorEquipos", query = "DELETE FROM Partido p WHERE p.equipo1 = :e1 and p.equipo2 = :e2"),
+	@NamedQuery(name="Equipo.updatePorEquipos", query = "update Partido p set  p.fecha=:fecha,p.jornada=:jornada,p.liga=:liga,p.estado=:estado,p.goles1=:goles1,"
+			+ "p.goles2=:goles2,p.amarillas1=:amarillas1,p.amarillas2=:amarillas2,p.rojas1=:rojas1,p.rojas2=:rojas2"
+			+ " WHERE p.equipo1 = :e1 and p.equipo2 = :e2")
 	
 
 

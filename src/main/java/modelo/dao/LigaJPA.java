@@ -62,5 +62,29 @@ public class LigaJPA {
             return false;
         }
     }
-	
+    public boolean actualizaLiga(String nombre,Liga liga) {
+    	TypedQuery<Equipo> query = em.createNamedQuery("Liga.updatePorNombre", Equipo.class);
+        query.setParameter("pais", liga.getPais());
+        query.setParameter("nombre", liga.getNombre());
+        query.setParameter("nombre2", nombre);
+        try {
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }
+    
+    public boolean borraLiga(String nombre) {
+        TypedQuery<Equipo> query = em.createNamedQuery("Liga.borraPorNombre", Equipo.class);
+        query.setParameter("nombre", nombre);
+        try {
+            int deletedRows = query.executeUpdate();
+            if(deletedRows == 1) return true;
+            else return false;
+        } catch (NoResultException e) {
+            return false;
+        }
+    }	
 }
