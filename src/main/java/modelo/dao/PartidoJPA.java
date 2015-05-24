@@ -2,15 +2,18 @@ package modelo.dao;
 
 import java.util.List;
 import java.util.Date;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.text.SimpleDateFormat;
+
 import java.text.*;
+
 import modelo.datos.Equipo;
 import modelo.datos.Partido;
+
 import java.util.Locale;
 
 @Stateless
@@ -54,8 +57,11 @@ public class PartidoJPA {
     public Partido[] listaTodosPartidosFecha(String fecha) {
         TypedQuery<Partido> query = em.createNamedQuery("Partido.encuentraTodosFecha", Partido.class);
         Date date= new Date();
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("es", "ES"));
-        date = format.parse("11-06-1990");
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        date = format.parse(fecha,pos);
+
+        
         query.setParameter("fecha", date);
         List<Partido> listaPartidos = query.getResultList();
         Partido[] partidos = new Partido[listaPartidos.size()];
