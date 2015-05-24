@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-
+import java.util.Date;
 import modelo.dao.EquipoJPA;
 import modelo.dao.PaisJPA;
 import modelo.dao.PartidoJPA;
@@ -50,7 +50,24 @@ public class PartidoServicios {
         return Response.ok(partidos).build();
     }
     //
-
+    @GET
+    @Path("estado/{estado}")
+    @Produces("application/json")
+    public Response listaTodosPartidosEstado(@PathParam("estado") int estado)  {
+        Partido[] partidos = partidoJPA.listaTodosPartidosEstado(estado);
+        
+        return Response.ok(partidos).build();
+    }
+    
+    @GET
+    @Path("fecha/{fecha}")
+    @Produces("application/json")
+    public Response listaTodosPartidosEstado(@PathParam("fecha") String fecha)  {
+        Partido[] partidos = partidoJPA.listaTodosPartidosFecha(fecha);
+        
+        return Response.ok(partidos).build();
+    }
+    
     @GET
     @Path("{nombre}")
     @Produces("application/json")
@@ -60,7 +77,9 @@ public class PartidoServicios {
     			return Response.status(Response.Status.NOT_FOUND).build();
     		return Response.ok(partido).build();
     }
-
+    
+    
+    
     @POST
     @Path("{nombre}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

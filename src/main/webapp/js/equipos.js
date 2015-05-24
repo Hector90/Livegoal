@@ -9,7 +9,7 @@ equipos.controller('EquiposCtrl', ['$scope', 'EquiposAService',
 
 	var self = this;
 	
-	//$scope.username = 
+	$scope.username = loged;
 	  
 	
 

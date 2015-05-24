@@ -1,16 +1,17 @@
 package modelo.dao;
 
 import java.util.List;
-
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
+import java.text.SimpleDateFormat;
+import java.text.*;
 import modelo.datos.Equipo;
 import modelo.datos.Partido;
-
+import java.util.Locale;
 
 @Stateless
 public class PartidoJPA {
@@ -35,6 +36,27 @@ public class PartidoJPA {
     
     public Partido[] listaTodosPartidos() {
         TypedQuery<Partido> query = em.createNamedQuery("Partido.encuentraTodos", Partido.class);
+        List<Partido> listaPartidos = query.getResultList();
+        Partido[] partidos = new Partido[listaPartidos.size()];
+        listaPartidos.toArray(partidos);
+        return partidos;
+    }
+    
+    public Partido[] listaTodosPartidosEstado(int estado) {
+        TypedQuery<Partido> query = em.createNamedQuery("Partido.encuentraTodosEstado", Partido.class);
+        query.setParameter("estado", estado);
+        List<Partido> listaPartidos = query.getResultList();
+        Partido[] partidos = new Partido[listaPartidos.size()];
+        listaPartidos.toArray(partidos);
+        return partidos;
+    }
+    
+    public Partido[] listaTodosPartidosFecha(String fecha) {
+        TypedQuery<Partido> query = em.createNamedQuery("Partido.encuentraTodosFecha", Partido.class);
+        Date date= new Date();
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy", new Locale("es", "ES"));
+        date = format.parse("11-06-1990");
+        query.setParameter("fecha", date);
         List<Partido> listaPartidos = query.getResultList();
         Partido[] partidos = new Partido[listaPartidos.size()];
         listaPartidos.toArray(partidos);
