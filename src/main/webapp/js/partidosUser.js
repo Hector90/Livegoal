@@ -20,6 +20,7 @@ self.buscarPorFecha = function(){
 }
 
 	self.ChangeActivo = function(x) {
+		
 		$scope.activo=x;
 		PartidosService.retrieveAll(x)
 		.success(function(data){
@@ -33,14 +34,12 @@ self.buscarPorFecha = function(){
 	.success(function(data){
 		$scope.partidos = data.partido;	
 	});
+	
 
 
-	self.retrieveContact = function(nombre) {
-		PartidosService.retrieveContact(nombre)
-		.success(function(data) {
-				//window.location.
-
-		});
+	self.retrieveContact = function(nombre1,nombre2) {
+	
+		window.location.href="http://localhost:8080/Livegoal/html/detalles.html?e1="+nombre1+"&e2="+nombre2;	
 	};
 
 
@@ -62,11 +61,11 @@ partidos.service('PartidosService', ['$http', function($http) {
 		return $http.get(url);
 	}
 
-	this.retrieveContact = function(nombre) {
-		var url = partidos.baseURI + nombre;
-		
-		return $http.get(url);
-	}
+//	this.retrieveContact = function(nombre) {
+//		var url = partidos.baseURI + nombre;
+//		
+//		return $http.get(url);
+//	}
 
 
 }]);

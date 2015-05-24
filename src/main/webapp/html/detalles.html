@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="partidos">
+<html ng-app="detalles">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,13 +19,13 @@
 
     <!-- Mis scripts-->
     <script src="../js/cookies.js"></script>
-    <script src="../js/partidosUser.js"></script>
+    <script src="../js/detalles.js"></script>
     <script>
 
     </script>
  </head>
-    		
-<body ng-controller="PartidosCtrl as PartidosCtrl">
+ 		
+<body ng-controller="detallesCtrl as detallesCtrl">
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
 
@@ -44,67 +44,78 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-    		 <li><a href="#">Partidos</a></li>
+    		 <li><a href="index.html">Partidos</a></li>
 	        <li><a href="paises.html">Paises</a></li>
 			 <li><a href="ligas.html">Ligas</a></li>
 			<li><a href="equipos">Equipos</a></li>
-      </ul>     
-          <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
-	        <li><a href="../index.html" Onclick="eraseCookie('LoginLivegoal')"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+
+          <ul class="nav navbar-nav navbar-right" >
+          	<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+			<li id="userLogin"></li>
+			<li id="userLogut"></li>
+
 	      </ul>
-       
     </div>
   </div>
 </nav>
 <div class="container" >
-    <h2>Partidos</h2>
-<ul class="nav nav-tabs">
-  <li style="cursor: pointer; cursor: hand;"><a ng-click="PartidosCtrl.ChangeActivo(0)" >Pendientes</a></li>
-  <li style="cursor: pointer; cursor: hand;"><a ng-click="PartidosCtrl.ChangeActivo(1)">Jugados</a></li>
-  
-  
-  <li>
-      
+    <h2>Detalles del partido</h2>
 
-        <input placeholder="Buscar por fecha" class="datepicker" data-date-format="dd-mm-yyyy" ng-model="SelectedDate" ng-change="PartidosCtrl.buscarPorFecha()">
-        <script type="text/javascript">
-        $('.datepicker').datepicker({
-            format: 'dd-mm-yyyy',
-        })
-        </script>
 
-  </li>
-</ul>
         <div class="table-responsive">
         <table class="table table-hover ">
-            <tr> <th>Local</th> <th></th> <th>VS</th> <th></th> <th>Visitante</th><th>Dia</th></tr>
+            <tr> <th>Local</th> <th></th><th></th> <th style="text-align:center;">VS</th><th></th> <th></th> <th style="text-align:right;">Visitante</th></tr>
             <tbody>
-            <tr  style="cursor: pointer; cursor: hand;" ng-repeat="a in partidos |  orderBy:'a.fecha' " ng-click="PartidosCtrl.retrieveContact(a.equipo1.nombre,a.equipo2.nombre)">
+            <tr >
 			
-             <td> 
-				{{a.equipo1.nombre}}
+             <td > 
+				{{partido.equipo1.nombre}}
 			</td>
 			<td> 
-				<img src="../images/escudos/{{a.equipo1.escudo}}" width=40 height=40>
+				
 			</td>
 			
              <td> 
+            <img align="right"src="../images/escudos/{{partido.equipo1.escudo}}" width=40 height=40>
+             </td>
+			
+             <td  style="text-align:center;"> 
 			-
 			</td>
              <td> 
-				<img src="../images/escudos/{{a.equipo2.escudo}}" width=40 height=40>
+			 	<img align="left" src="../images/escudos/{{partido.equipo2.escudo}}" width=40 height=40>
 			</td>			
              <td> 
-				{{a.equipo2.nombre}}
+				
 			</td>
-			<td> 
-				{{a.fecha | date:'dd/MM/yyyy h:mma'}}
+			<td style="text-align:right;"> 
+				{{partido.equipo2.nombre}}
 			</td>				
+            </tr>
+            <tr>
+            <td>{{partido.Rojas1}}<br>  <img src=../images/tarjetaRoja.png width=30 height=50></td>
+            <td>{{partido.Amarillas1}}<br> <img src=../images/tarjetaAmarilla.png width=30 height=50></td>
+            <td style="text-align:right;">{{partido.goles1}}</td>
+            <td style="text-align:center;">-</td>
+            <td>{{partido.goles2}}</td>
+            <td style="text-align:right;">{{partido.Amarillas2}}<br> <img src=../images/tarjetaAmarilla.png width=30 height=50></td>
+            <td style="text-align:right;">{{partido.Rojas2}}<br>  <img src=../images/tarjetaRoja.png width=30 height=50></td>
             </tr>
             </tbody>
         </table>
         </div>
 </div>
 </body>
+ <script type="text/javascript">
+ if(readCookie("LoginLivegoal")===null){
+		document.getElementById('userLogin').innerHTML = '<a href="Login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a>';
+		}else{
+			
+
+		document.getElementById('userLogut').innerHTML = '<a href="index.html" Onclick="eraseCookie(\'LoginLivegoal\')"><span class="glyphicon glyphicon-log-in"></span> Logout</a>';
+		
+		}
+ 
+ </script>  
 </html>

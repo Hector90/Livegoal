@@ -69,7 +69,7 @@ public class PartidoServicios {
     }
     
     @GET
-    @Path("{nombre}")
+    @Path("{nombre1}/{nombre2}")
     @Produces("application/json")
     public Response buscarPartidoPorEquipos(@PathParam("nombre1") String nombre1, @PathParam("nombre2") String nombre2) {
     	Partido partido = partidoJPA.buscaPartido(nombre1, nombre2);
