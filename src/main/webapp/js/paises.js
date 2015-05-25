@@ -1,5 +1,5 @@
 var loged=readCookie("LoginLivegoal");
-//if(loged==="admin"){
+if(loged==="admin"){
 	
 
 var paises = angular.module("paises", []); 
@@ -9,7 +9,7 @@ paises.controller('PaisesCtrl', ['$scope', 'PaisesAService',
 
 	var self = this;
 	
-	//$scope.username = 
+	$scope.username = loged;
 	  
 	
 
@@ -42,7 +42,6 @@ paises.controller('PaisesCtrl', ['$scope', 'PaisesAService',
 	self.create = function (nombre,bandera,abreviatura) {			
 			PaisesAService.create(nombre,bandera,abreviatura)
 			.success(function (data) {
-				//borraCampos($scope);
 				PaisesAService.retrieveAll()
 				.success(function (data) {
 					$scope.paises = data.pais;
@@ -126,6 +125,6 @@ paises.service('PaisesAService', ['$http', function($http) {
 		return $http.put(url, dato);
 	};
 }]);
-//}else{
-//	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
-//}
+}else{
+	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
+}

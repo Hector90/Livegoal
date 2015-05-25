@@ -1,6 +1,5 @@
 var loged=readCookie("LoginLivegoal");
-//if(loged==="admin"){
-	
+
 
 var partidos = angular.module("partidos", []); 
 partidos.controller('PartidosCtrl', ['$scope', 'PartidosService', 
@@ -61,14 +60,5 @@ partidos.service('PartidosService', ['$http', function($http) {
 		return $http.get(url);
 	}
 
-//	this.retrieveContact = function(nombre) {
-//		var url = partidos.baseURI + nombre;
-//		
-//		return $http.get(url);
-//	}
-
 
 }]);
-//}else{
-//	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
-//}

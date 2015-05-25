@@ -23,6 +23,13 @@ public class PartidoJPA {
     EntityManager em;
 //
     public void nuevoPartido(Partido partido) {
+//        Date date= new Date();
+//        ParsePosition pos = new ParsePosition(0);
+//        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+//        date = format.parse(partido.getFecha(),pos);
+//    	 partido.setFecha(date);
+    	
+    	 System.out.println(partido.getFecha());
           em.persist(partido);
     }
 
@@ -102,10 +109,10 @@ public class PartidoJPA {
         }
     }
     
-    public boolean borraPartido(String equipo1, String equipo2) {
-        TypedQuery<Equipo> query = em.createNamedQuery("Partidos.borraPorEquipos", Equipo.class);
-        query.setParameter("e1", equipo1);
-        query.setParameter("e2", equipo2);
+    public boolean borraPartido(Long id) {
+        TypedQuery<Equipo> query = em.createNamedQuery("Partidos.borraPorId", Equipo.class);
+        query.setParameter("id", id);
+
         try {
             int deletedRows = query.executeUpdate();
             if(deletedRows == 1) return true;

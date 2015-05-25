@@ -11,11 +11,11 @@ function getVariable(variable)
        return(false);
 }	
 
-var detalles = angular.module("detalles", []); 
-detalles.controller('detallesCtrl', ['$scope', 'detallesService', 
+var detalles = angular.module("detalles", ['angular-input-stars']); 
+detalles.controller('detallesCtrl', ['$scope', 'detallesService', 'ComentariosService' ,
                                  function ($scope, detallesService) { //Inyecta los atributos
 	detalles.baseURI = 'http://localhost:8080/Livegoal/partidos/';
-
+	detalles.baseURIC = 'http://localhost:8080/Livegoal/comentarios/';
 	var self = this;
 	
 	$scope.username = loged;
@@ -45,3 +45,30 @@ detalles.service('detallesService', ['$http', function($http) {
 	}
 
 }]);
+
+//	FUNCION SERVICIOS WEB Comentarios
+
+
+	detalles.service('ComentariosService', ['$http', function($http) {
+
+		this.retrieveAll = function(idPartido) {
+			var url = detalles.baseURIC + "P/"+idPartido;
+			return $http.get(url);
+		};
+
+
+		this.create = function(idPartido,nombreU,contenido,puntuacion) {
+			dato = {'comentario': {'idPartido': idPartido, 'nombreU': nombreU, 'contenido': contenido, 
+				'puntuacion':puntuacion}};
+
+			var url = detalles.baseURIC + idPartido;
+			return $http.put(url, dato);
+		};
+
+		this.remove = function(id) {
+			var url = detalles.baseURIC + id;
+			return $http["delete"](url);
+		};
+
+
+	}]);

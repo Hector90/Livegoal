@@ -3,7 +3,6 @@ package modelo.datos;
 
 
 import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"equipo1","equipo2","fecha","jornada","liga","goles1","goles2","amarillas1","amarillas2","rojas1","rojas2","estado"})
+@XmlType(propOrder = {"id","equipo1","equipo2","fecha","jornada","liga","goles1","goles2","amarillas1","amarillas2","rojas1","rojas2","estado"})
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Partido.encuentraTodos", query = "SELECT p FROM Partido p"),
@@ -30,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 	@NamedQuery(name="Partido.encuentraTodosFecha", query = "SELECT p FROM Partido p WHERE p.fecha = :fecha "),
 	@NamedQuery(name="Partido.encuentraPartidosEquipo", query = "SELECT p FROM Partido p WHERE p.equipo1 = :e1 or p.equipo2 = :e1"),
 	@NamedQuery(name="Partido.encuentraPorLiga", query = "SELECT p FROM Partido p WHERE p.liga = :liga "),
-	@NamedQuery(name="Partido.borraPorEquipos", query = "DELETE FROM Partido p WHERE p.equipo1 = :e1 and p.equipo2 = :e2"),
+	@NamedQuery(name="Partido.borraPorId", query = "DELETE FROM Partido p WHERE p.id = :id"),
 	@NamedQuery(name="Equipo.updatePorEquipos", query = "update Partido p set  p.fecha=:fecha,p.jornada=:jornada,p.liga=:liga,p.estado=:estado,p.goles1=:goles1,"
 			+ "p.goles2=:goles2,p.amarillas1=:amarillas1,p.amarillas2=:amarillas2,p.rojas1=:rojas1,p.rojas2=:rojas2"
 			+ " WHERE p.equipo1 = :e1 and p.equipo2 = :e2")
@@ -41,6 +40,10 @@ import javax.xml.bind.annotation.XmlType;
 @Table(name = "partidos")
 //
 public class Partido {
+	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@XmlTransient
+	private Long id;
 	@Id
 	@ManyToOne
 	@JoinColumn(name="equipo1")
@@ -49,7 +52,7 @@ public class Partido {
 	@ManyToOne
 	@JoinColumn(name="equipo2")
 	private Equipo equipo2;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 	private int jornada;
 	@ManyToOne
@@ -67,7 +70,8 @@ public class Partido {
 		super();
 	}
 
-	public Partido( Equipo e1, Equipo e2, Date f, int jor, Liga l, int estado, int g1, int g2, int a1, int a2, int r1, int r2) {
+	public Partido(long id, Equipo e1, Equipo e2, Date f, int jor, Liga l, int estado, int g1, int g2, int a1, int a2, int r1, int r2) {
+		this.id = id;
 		this.equipo1=e1;
 		this.equipo2=e2;
 		this.fecha=f;
@@ -81,7 +85,15 @@ public class Partido {
 		this.rojas1=r1;
 		this.rojas2=r2;
 	}
+	
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}    
+	
 	public Equipo getEquipo1() {
 		return equipo1;
 	}

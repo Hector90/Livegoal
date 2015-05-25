@@ -1,5 +1,5 @@
 var loged=readCookie("LoginLivegoal");
-//if(loged==="admin"){
+if(loged==="admin"){
 	
 
 var ligas = angular.module("ligas", []); 
@@ -9,7 +9,7 @@ ligas.controller('LigasCtrl', ['$scope', 'LigasAService',
 
 	var self = this;
 	
-	//$scope.username = 
+	$scope.username = loged;
 	  
 	
 
@@ -22,7 +22,7 @@ ligas.controller('LigasCtrl', ['$scope', 'LigasAService',
 	};
 
 
-//	Comprueba en tiempo real si el liga introducido ya existe
+//	Comprueba en tiempo real si la liga introducido ya existe
 	$scope.comprobar = function(nombre){
 
 		LigasAService.retrieveContact(nombre).success(function(data){
@@ -105,7 +105,7 @@ ligas.controller('LigasCtrl', ['$scope', 'LigasAService',
 
 
 
-//FUNCION SERVICIOS WEB EQUIPOS
+//FUNCION SERVICIOS WEB LIGAS
 ligas.service('LigasAService', ['$http', function($http) {
 
 	this.create = function(nombre,pais) {
@@ -146,6 +146,6 @@ ligas.service('LigasAService', ['$http', function($http) {
 		return $http.put(url, dato);
 	};
 }]);
-//}else{
-//	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
-//}
+}else{
+	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
+}

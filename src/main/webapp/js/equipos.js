@@ -1,5 +1,5 @@
 var loged=readCookie("LoginLivegoal");
-//if(loged==="admin"){
+if(loged==="admin"){
 	
 
 var equipos = angular.module("equipos", []); 
@@ -146,6 +146,6 @@ equipos.service('EquiposAService', ['$http', function($http) {
 		return $http.put(url, dato);
 	};
 }]);
-//}else{
-//	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
-//}
+}else{
+	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
+}

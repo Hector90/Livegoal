@@ -81,16 +81,16 @@ public class PartidoServicios {
     
     
     @POST
-    @Path("{nombre}")
+    @Path("{nombre1}/{nombre2}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-    		@PathParam("nombre") String nombre,Partido partido
+    		@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2,Partido partido
             ) {
         if (partidoJPA.buscaPartido(partido.getEquipo1().getNombre(), partido.getEquipo2().getNombre()) == PartidoJPA.ENTRADA_NULL) {
             partidoJPA.nuevoPartido(partido);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-            URI uri = uriBuilder.path(nombre).build();
+            URI uri = uriBuilder.path(nombre1+"/"+nombre2).build();
             return Response.created(uri).entity(partido).build();
         } else
             return Response.status(Response.Status.CONFLICT).build();
@@ -114,10 +114,10 @@ public class PartidoServicios {
 	}
 	
     @DELETE
-    @Path("{nombre}")
+    @Path("{id}")
     @Produces("application/json")
-    public Response borraEntrada(@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2) {
-            if (partidoJPA.borraPartido(nombre1, nombre2) == true)
+    public Response borraEntrada(@PathParam("id") Long id ) {
+            if (partidoJPA.borraPartido(id) == true)
                 return Response.status(Response.Status.ACCEPTED).build();
             else
                 return Response.status(Response.Status.NOT_FOUND).build();
