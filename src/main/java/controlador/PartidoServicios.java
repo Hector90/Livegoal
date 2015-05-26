@@ -27,7 +27,8 @@ import modelo.datos.Equipo;
 import modelo.datos.Pais;
 import modelo.datos.Partido;
 import modelo.datos.Usuario;
-
+import java.util.Date;
+import java.text.*;
 @Path("partidos")
 @Stateless
 public class PartidoServicios {
@@ -81,12 +82,20 @@ public class PartidoServicios {
     
     
     @POST
-    @Path("{nombre1}/{nombre2}")
+    @Path("{nombre1}/{nombre2}/{fecha}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.APPLICATION_JSON)
     public Response nuevaEntradaDesdeFormulario(
-    		@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2,Partido partido
+    		@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2,
+    		@PathParam("fecha") String fecha,
+    		Partido partido
             ) {
+    	   Date date= new Date();
+           ParsePosition pos = new ParsePosition(0);
+           SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+           date = format.parse(fecha,pos);         
+           partido.setFecha(date);
+
         if (partidoJPA.buscaPartido(partido.getEquipo1().getNombre(), partido.getEquipo2().getNombre()) == PartidoJPA.ENTRADA_NULL) {
             partidoJPA.nuevoPartido(partido);
             UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
@@ -101,7 +110,7 @@ public class PartidoServicios {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response actualizaEquipo(@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2, Partido partido) {
-		
+	
 
 	      if (partidoJPA.actualizaPartido(nombre1, nombre2, partido) == true){
 					return Response.status(Response.Status.NO_CONTENT).build();                

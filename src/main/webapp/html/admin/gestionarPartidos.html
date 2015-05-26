@@ -36,7 +36,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Livegoal</a>
+      <a class="navbar-brand" href="../index.html">Livegoal</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -68,7 +68,7 @@
             </tr>
             <tbody>
             <tr ng-repeat="a in partidos | orderBy:'a.id' "id="{{a.id}}">
-                <td>{{a.fecha}}</td>
+                <td>{{a.fecha | date:'dd/MM/yyyy h:mma'}}</td>
                 <td>{{a.equipo1.nombre}}</td>
 				<td>{{a.equipo2.nombre}}</td>
                 <td><button  id="a.Updateid" type="submit" class="btn btn-info btn-sm" data-toggle="modal" data-target="#actualizar"
@@ -172,7 +172,7 @@
 					
 			<div class="form-group">
   			<label>Fecha</label>
-                <div class="input-group date form_datetime" data-date="" data-date-format="dd-mm-yyyy HH:ii p" data-link-field="dtp_input1">
+                <div class="input-group date form_datetime" data-date="" data-date-format="dd-mm-yyyy HH:ii" data-link-field="dtp_input1">
                     <input ng-model="user.fecha"  class="form-control" size="16" type="text" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
@@ -181,27 +181,27 @@
 
 			  	<div class="form-group"  >
 					<label>Goles L:</label>
-					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.goles1"  id="goles1" name="goles1" required/>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.goles1"  id="goles1" name="goles1" />
 			  	</div>
 				<div class="form-group"  >
 					<label>Goles V:</label>
-					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.goles2"  id="goles2" name="goles2" required/>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.goles2"  id="goles2" name="goles2" />
 			  	</div>
 				<div class="form-group"  >
 					<label>Amarillas L:</label>
-					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.amarillas1"  id="amarillas1" name="amarillas1" required/>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.amarillas1"  id="amarillas1" name="amarillas1" />
 			  	</div>		
 				<div class="form-group"  >
 					<label>Amarillas V:</label>
-					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.amarillas2"  id="amarillas2" name="amarillas2" required/>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.amarillas2"  id="amarillas2" name="amarillas2" />
 			  	</div>
 				<div class="form-group"  >
 					<label>Rojas L:</label>
-					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.rojas1"  id="rojas1" name="rojas1" required/>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.rojas1"  id="rojas1" name="rojas1" />
 			  	</div>
 				<div class="form-group"  >
 					<label>Rojas V:</label>
-					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.rojas2"  id="rojas2" name="rojas2" required/>
+					   	<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="user.rojas2"  id="rojas2" name="rojas2" />
 			  	</div>
 			  	<div class="form-group"  >
 				   	<label>Ligas:</label>
@@ -225,7 +225,7 @@
 <script type="text/javascript">
     
 $('.form_datetime').datetimepicker({
-   
+	
 });
 
 </script>

@@ -105,13 +105,15 @@ partidos.service('PartidosAService', ['$http', function($http) {
 
 	this.create = function(e1,e2,amarillas1,amarillas2,estado,fecha,
 	goles1,goles2,jornada,rojas1,rojas2,equipo1,equipo2,liga) {
-		dato = {'partido': {"equipo1":e1,"equipo2":e2,"amarillas1":amarillas1,"amarillas2":amarillas2,"estado":estado,"fecha":fecha,
+		
+	
+		dato = {'partido': {"equipo1":e1,"equipo2":e2,"amarillas1":amarillas1,"amarillas2":amarillas2,"estado":estado,"fecha":"",
 		"goles1":goles1,"goles2":goles2,"jornada":jornada,"rojas1":rojas1,"rojas2":rojas2,"equipo1":equipo1,"equipo2":equipo2,"liga":liga}};
 
 		
-		var url = partidos.baseURI + e1.nombre+"/"+e2.nombre;
+		var url = partidos.baseURI + e1.nombre+"/"+e2.nombre+"/"+fecha;
 		debugger;
-		return $http.post(url, dato);
+		return $http.post(url,dato);
 	}
 
 	this.retrieveAll = function() {

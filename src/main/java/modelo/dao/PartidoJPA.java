@@ -64,12 +64,22 @@ public class PartidoJPA {
     public Partido[] listaTodosPartidosFecha(String fecha) {
         TypedQuery<Partido> query = em.createNamedQuery("Partido.encuentraTodosFecha", Partido.class);
         Date date= new Date();
-        ParsePosition pos = new ParsePosition(0);
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        date = format.parse(fecha,pos);
+        Date startDate= new Date();
+        Date endDate= new Date();
+        ParsePosition pos1 = new ParsePosition(0);
+        ParsePosition pos2 = new ParsePosition(0);
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        String fecha1=fecha+" 00:00:00";
+        String fecha2=fecha+" 23:59:59";
 
+
+    	
+    	startDate= format.parse(fecha1,pos1);
+		endDate=format.parse(fecha2,pos2);
         
-        query.setParameter("fecha", date);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+        
         List<Partido> listaPartidos = query.getResultList();
         Partido[] partidos = new Partido[listaPartidos.size()];
         listaPartidos.toArray(partidos);
