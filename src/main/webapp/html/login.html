@@ -26,16 +26,73 @@
 
 </head>
 <body ng-controller="LoginCtrl as loginCtrl">
-
+<div class="container">
     <div class="wrapper">
-    <form class="form-signin" name="loginForm">       
-      <h2 class="form-signin-heading">Please login</h2>
-      <input type="text" id="username" class="form-control" ng-model="username" name="username" placeholder="Email Address" required="" autofocus="" />
-      <input type="password" id="password" class="form-control" ng-model="password" name="password" placeholder="Password" required=""/>      
+    
+    <form class="form-signin" name="loginForm">     
+    <div class="form-group"  >  
+      <h2 class="form-signin-heading">Loing</h2>
+      <input type="text" id="username" class="form-control" ng-model="username" name="username" placeholder="Nombre de usuario" required  />
+      <input type="password" id="password" class="form-control" ng-model="password" name="password" placeholder="Password" required/>      
  	  <small class="error" ng-show="loginForm.password.$error.password" id="error">*Nombre y/o contraseña incorrecto</small>
+ 	  <div id="usuarioCreado"></div>
       <button  id="nuevo" type="submit" class="btn btn-lg btn-primary btn-block" ng-click="loginCtrl.login(username,password)">Login</button>
+      </div>
+      <div class="form-group"  >
+       <button type="submit" id="añadir1" ng-hide="add" class="btn btn-info" data-toggle="modal" data-target="#create">
+    <span class="glyphicon glyphicon-plus"></span>Registrarse</button>
+      </div>
+
+	
     </form>
+   
+
   </div>
 
+
+		<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header modal-header-new">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-plus"></i> Registrarse</h4>
+		      </div>
+		      <div class="modal-body">
+		      <form id="createForm" name="createForm" >
+				<div class="form-group"  >
+					    	<label>Nombre:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="Rnombre" id="Rnombre" name="Rnombre" required/>
+			  				
+			  	</div>
+			  					<div class="form-group"  >
+					    	<label>apellidos:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="Rapellidos" id="Rapellidos" name="Rapellidos" required/>
+			  	</div>
+			  	<div class="form-group"  >
+					    	<label>email:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="Remail" id="Remail" name="Remail" required/>
+			  	</div>
+			  	<div class="form-group"  >
+					    	<label>Username:</label>
+					   		<input class="form-control" type="text" ng-minlength=1 ng-maxlength=50 ng-model="Rusername" id="Rusername" name="Rusername" required/>
+
+			  	</div>
+			  	<div class="form-group"  >
+					    	<label>Password:</label>
+					   		<input class="form-control" type="password" ng-minlength=1 ng-maxlength=50 ng-model="Rpassword" id="Rpassword" name="Rpassword" required/>
+			  	</div>
+			  			
+		
+  		       <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		        <button id="registrarse" type="submit" ng-click="loginCtrl.create(Rnombre,Rapellidos,Remail,Rusername,Rpassword)" 
+		        class="btn btn-success">Registrarse</button>
+		      </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

@@ -113,6 +113,7 @@
 
 										
         <!-- COMENTARIOS -->
+        	
 					<div style="margin: 25px">
 					<form id="comentarForm" name="comentarForm">
 
@@ -121,10 +122,9 @@
 							id="comentarCont" rows=15 cols=150 style="resize: none"></textarea>
 						<input-stars id="puntuar" ng-model="detallesCtrl.puntuacion"
 							max="5"></input-stars>
-						<input type="text" id="nombreU" placeholder="Nombre"
-							ng-model="detallesCtrl.nombreU">
+						
 						<button id="comentar" name="comentar" type="submit"
-							ng-click="detallesCtrl.createComent(detallesCtrl.nombreU,detallesCtrl.contenido,detallesCtrl.puntuacion)"
+							ng-click="detallesCtrl.createComent(detallesCtrl.contenido,detallesCtrl.puntuacion)"
 							class="btn btn-success">Comentar</button>
 
 					</form>
@@ -141,7 +141,7 @@
 							</button>
 						</div>
 						<div style="">
-							<b>{{c.nombreU}}</b> ha opinado sobre esta actividad:
+							<b>{{c.nombreU}}</b> ha opinado sobre partido:
 						</div>
 						<textarea id="comentario-{{c.id}}" rows="10" cols="150" readonly
 							style="resize: none">{{c.contenido}}</textarea>

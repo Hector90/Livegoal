@@ -1,12 +1,6 @@
 package modelo.datos;
+import javax.persistence.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,12 +14,15 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
 	@NamedQuery(name="Usuario.encuentraTodos", query = "SELECT p FROM Usuario p order by p.nombre asc"),
 	@NamedQuery(name="Usuario.login", query = "SELECT u FROM Usuario u WHERE u.username = :username AND u.password = :password"),
+	@NamedQuery(name="Usuario.nombre", query = "SELECT u FROM Usuario u WHERE u.username = :username")
 })
 //
 
 public class Usuario {
-	@Id
-	@XmlTransient
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @XmlTransient
+
 	private int idUsuario;
 	private String nombre;
 	private String apellidos;

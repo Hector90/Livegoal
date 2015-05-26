@@ -32,33 +32,16 @@ public class UsuarioJPA {
         }
     }
     
-    public Usuario[] listaTodosUsuarios() {
-        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.encuentraTodos", Usuario.class);
-        List<Usuario> listaUsuarios = query.getResultList();
-        Usuario[] usuarios = new Usuario[listaUsuarios.size()];
-        listaUsuarios.toArray(usuarios);
-        return usuarios;
-    }
-   
-	
-    public boolean actualizaUsuario(Usuario usuario) {
-        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.encuentraPorLogin", Usuario.class);
-        query.setParameter("login", usuario.getUsername());
+    public Usuario buscaUsuarioPorNombre(String username) {
+        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.nombre", Usuario.class);
+        query.setParameter("username", username);
+
+        
         try {
-        	Usuario usuarioBBDD = query.getSingleResult();
-        	usuarioBBDD.setNombre(usuario.getNombre());
-        	usuarioBBDD.setApellidos(usuario.getApellidos());
-        	usuarioBBDD.setUsername(usuario.getUsername());
-        	usuarioBBDD.setPassword(usuario.getPassword());
-        	usuarioBBDD.setEmail(usuario.getEmail());
-        	usuarioBBDD.setRol(usuario.getRol());
-        	usuarioBBDD.setEstado(usuario.getEstado());
-        	
-        	return true;
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return false;
+            return ENTRADA_NULL;
         }
     }
-
 	
 }

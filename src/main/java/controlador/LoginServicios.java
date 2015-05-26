@@ -2,9 +2,11 @@ package controlador;
 
 import java.util.List;
 import java.util.regex.Pattern;
-
+import java.net.URI;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,7 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import modelo.dao.UsuarioJPA;
 import modelo.datos.Usuario;
 
@@ -27,6 +30,8 @@ public class LoginServicios {
 	
 	@Inject
     UsuarioJPA usuarioJPA;
+    @Context
+    private UriInfo uriInfo;
 	//private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 	//		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
@@ -63,5 +68,21 @@ public class LoginServicios {
     }
     
 
+    @POST
+    @Path("{nombre}")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response nuevaEntradaDesdeFormulario(
+    		@PathParam("nombre") String nombre,Usuario usuario
+            ) {
+        if (usuarioJPA.buscaUsuarioPorNombre(nombre) == UsuarioJPA.ENTRADA_NULL) {
+            usuarioJPA.nuevoUsuario(usuario);
+            UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
+            URI uri = uriBuilder.path(nombre).build();
+            return Response.created(uri).entity(usuario).build();
+        } else
+            return Response.status(Response.Status.CONFLICT).build();
+    }
+    
 
 }
