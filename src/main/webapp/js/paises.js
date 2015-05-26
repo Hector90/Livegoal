@@ -55,14 +55,14 @@ paises.controller('PaisesCtrl', ['$scope', 'PaisesAService',
 	self.retrieveContact = function(nombre) {
 		PaisesAService.retrieveContact(nombre)
 		.success(function(data) {
-			
+			$scope.nombrePaisU=nombre;
 			$scope.CurrentPais = data.pais;
 
 		});
 	};
 
 	self.update = function() {
-		PaisesAService.update($scope.CurrentPais)
+		PaisesAService.update($scope.CurrentPais,$scope.nombrePaisU)
 			.success(function(data) {
 				PaisesAService.retrieveAll()
 				.success(function (data) {
@@ -122,6 +122,7 @@ paises.service('PaisesAService', ['$http', function($http) {
 	this.update = function (pais, antiguo) {
 		var url = paises.baseURI +"actualizar/" + antiguo;
 		dato = {'pais': pais};
+		debugger;
 		return $http.put(url, dato);
 	};
 }]);

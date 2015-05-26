@@ -1,5 +1,5 @@
 var loged=readCookie("LoginLivegoal");
-//if(loged==="admin"){
+if(loged==="admin"){
 	
 
 var partidos = angular.module("partidos", []); 
@@ -56,23 +56,19 @@ partidos.controller('PartidosCtrl', ['$scope', 'PartidosAService',
 	};
 
 
-	self.retrieveContact = function(nombre1,nombre2) {
-		PartidosAService.retrieveContact(nombre1,nombre2)
+	self.retrieveContact = function(e1,e2) {
+		PartidosAService.retrieveContact(e1,e2)
 		.success(function(data) {
-			$scope.nombre1Update=nombre1;
-			$scope.nombre2Update=nombre2;
+			$scope.e11Update=e1;
+			$scope.e22Update=e2;
 			$scope.CurrentPartido = data.partido;
 
 		});
 	};
 
 	self.update = function() {
-//		for (var x=0;x<$scope.paises.length;x++){
-//			if($scope.CurrentPartido.pais.nombre==$scope.paises[x].nombre){
-//				$scope.CurrentPartido.pais=$scope.paises[x];
-//			}
-//		}
-		PartidosAService.update($scope.CurrentPartido,$scope.nombre1Update,$scope.nombre2Update)
+
+		PartidosAService.update($scope.CurrentPartido)
 			.success(function(data) {
 				PartidosAService.retrieveAll()
 				.success(function (data) {
@@ -131,8 +127,8 @@ partidos.service('PartidosAService', ['$http', function($http) {
 		return $http.get(url);
 	}
 	
-	this.retrieveContact = function(nombre) {
-		var url = partidos.baseURI + nombre;
+	this.retrieveContact = function(e1,e2) {
+		var url = partidos.baseURI + e1.nombre+"/"+e2.nombre;
 		
 		return $http.get(url);
 	}
@@ -144,12 +140,12 @@ partidos.service('PartidosAService', ['$http', function($http) {
 	
 
 
-	this.update = function (partido,antiguo) {
-		var url = partidos.baseURI +"actualizar/" + antiguo;
+	this.update = function (partido) {
+		var url = partidos.baseURI +"actualizar/" + partido.equipo1.nombre+"/"+ partido.equipo2.nombre;
 		dato = {'partido': partido};
 		return $http.put(url, dato);
 	};
 }]);
-//}else{
-//	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
-//}
+}else{
+	window.location.href="http://localhost:8080/Livegoal/html/index.html";	
+}

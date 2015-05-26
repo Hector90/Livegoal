@@ -106,7 +106,7 @@ public class PartidoServicios {
     }
     
 	@PUT
-	@Path("actualizar/{nombre}")
+	@Path("actualizar/{nombre1}/{nombre2}")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response actualizaEquipo(@PathParam("nombre1") String nombre1,@PathParam("nombre2") String nombre2, Partido partido) {
@@ -126,6 +126,7 @@ public class PartidoServicios {
     @Path("{id}")
     @Produces("application/json")
     public Response borraEntrada(@PathParam("id") Long id ) {
+    	System.out.println("hola1");
             if (partidoJPA.borraPartido(id) == true)
                 return Response.status(Response.Status.ACCEPTED).build();
             else

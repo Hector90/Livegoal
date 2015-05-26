@@ -120,9 +120,9 @@ public class PartidoJPA {
     }
     
     public boolean borraPartido(Long id) {
-        TypedQuery<Equipo> query = em.createNamedQuery("Partidos.borraPorId", Equipo.class);
+        TypedQuery<Equipo> query = em.createNamedQuery("Partido.borraPorId", Equipo.class);
         query.setParameter("id", id);
-
+    	System.out.println("hola2");
         try {
             int deletedRows = query.executeUpdate();
             if(deletedRows == 1) return true;

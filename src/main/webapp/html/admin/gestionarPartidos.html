@@ -92,7 +92,7 @@
                 <div class="modal-header modal-header-update">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel">
-                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentPartido.equipo1}} {{CurrentPartido.equipo2}}</h4>
+                    <i class="glyphicon glyphicon-pencil"></i>{{CurrentPartido.equipo1.nombre}} VS {{CurrentPartido.equipo2.nombre}}</h4>
                 </div>
                 <div class="modal-body">
 					
@@ -100,41 +100,51 @@
 					
 					 <div class="form-group">					    	
 						    <label>Equipo1:</label>
-					   		<input type="text" id="equipo1U" disabled name="equipo1U" class="form-control" ng-model="CurrentPartido.equipo1"> 
+					   		<input type="text" id="equipo1U" disabled name="equipo1U" class="form-control" ng-model="CurrentPartido.equipo1.nombre"> 
 					  </div>
 					<div class="form-group">					    	
 						    <label>Equipo2:</label>
-					   		<input type="text" id="equipo2U" disabled name="equipo2U" class="form-control" ng-model="CurrentPartido.equipo2"> 
+					   		<input type="text" id="equipo2U" disabled name="equipo2U" class="form-control" ng-model="CurrentPartido.equipo2.nombre"> 
 					  </div>
-					<div class="form-group">					    	
-						    <label>Fecha:</label>
-					   		<input type="text" id="fechaU" disabled name="fechaU" class="form-control" ng-model="CurrentPartido.fecha"> 			
-					  </div>
+	<div class="form-group">
+  			<label>Fecha</label>
+               
+                    <input ng-model="CurrentPartido.fecha" disabled class="form-control" size="16" type="text" value="" >
+
+                </div>
+			 
 					  <div class="form-group">					    	
 						    <label>Goles L:</label>
-					   		<input type="text" id="goles1U" disabled name="goles1U" class="form-control" ng-model="CurrentPartido.goles1"> 
+					   		<input type="text" id="goles1U"  name="goles1U" class="form-control" ng-model="CurrentPartido.goles1"> 
 					  </div>
 					 <div class="form-group">					    	
 						    <label>Goles V:</label>
-					   		<input type="text" id="goles2U" disabled name="goles2U" class="form-control" ng-model="CurrentPartido.goles2"> 
+					   		<input type="text" id="goles2U"  name="goles2U" class="form-control" ng-model="CurrentPartido.goles2"> 
 					  </div>
 					 <div class="form-group">					    	
 						    <label>Amarillas L:</label>
-					   		<input type="text" id="amarillas1U" disabled name="amarillas1U" class="form-control" ng-model="CurrentPartido.amarillas1"> 
+					   		<input type="text" id="amarillas1U"  name="amarillas1U" class="form-control" ng-model="CurrentPartido.amarillas1"> 
 					  </div>
 					 <div class="form-group">					    	
 						    <label>Amarillas V:</label>
-					   		<input type="text" id="amarillas2U" disabled name="amarillas2U" class="form-control" ng-model="CurrentPartido.amarillas2"> 
+					   		<input type="text" id="amarillas2U"  name="amarillas2U" class="form-control" ng-model="CurrentPartido.amarillas2"> 
 					  </div>
+					  
 					 <div class="form-group">					    	
 						    <label>Rojas L:</label>
-					   		<input type="text" id="rojas1U" disabled name="rojas1U" class="form-control" ng-model="CurrentPartido.rojas1"> 
+					   		<input type="text" id="rojas1U"  name="rojas1U" class="form-control" ng-model="CurrentPartido.rojas1"> 
 					  </div>
 					 <div class="form-group">					    	
 						    <label>Rojas V:</label>
-					   		<input type="text" id="rojas2U" disabled name="rojas2U" class="form-control" ng-model="CurrentPartido.rojas2"> 
+					   		<input type="text" id="rojas2U"  name="rojas2U" class="form-control" ng-model="CurrentPartido.rojas2"> 
 					  </div>
-					 
+					 <div class="form-group">					    	
+						    <label>Estado:</label>
+					   		<select ng-model="CurrentPartido.estado" id="estadoU"  name="estadoU" >
+					   		<option value=0>Pendiente</option>
+					   		<option value=1>Jugado</option>
+					   		</select>
+					  </div>
 					 
 					  
 					  <div class="modal-footer">
